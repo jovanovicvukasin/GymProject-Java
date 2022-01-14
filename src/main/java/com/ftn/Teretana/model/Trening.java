@@ -1,8 +1,122 @@
 package com.ftn.Teretana.model;
 
+import java.time.LocalTime;
+
 public class Trening {
 	
-	//???
+	private Long id;
+	private String naziv;
+	private String trener;
+	private String opis;
+	private String slika;
+	private TipTreninga tipTreninga;
+	private double cena;
+	private String vrstaTreninga; //pojedinacni ili grupni
+	private String nivoTreninga; //amaterski, srednji ili napredni
+	private LocalTime trajanje;
+	private float ocena;
+	
+	public Trening() {
+
+	}
+	
+	public Trening(String naziv, String trener, String opis, String slika, TipTreninga tipTreninga, double cena,
+			String vrstaTreninga, String nivoTreninga, LocalTime trajanje, float ocena) {
+		super();
+		this.naziv = naziv;
+		this.trener = trener;
+		this.opis = opis;
+		this.slika = slika;
+		this.tipTreninga = tipTreninga;
+		this.cena = cena;
+		this.vrstaTreninga = vrstaTreninga;
+		this.nivoTreninga = nivoTreninga;
+		this.trajanje = trajanje;
+		this.ocena = ocena;
+	}
+	public Trening(Long id, String naziv, String trener, String opis, String slika, TipTreninga tipTreninga,
+			double cena, String vrstaTreninga, String nivoTreninga, LocalTime trajanje, float ocena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.trener = trener;
+		this.opis = opis;
+		this.slika = slika;
+		this.tipTreninga = tipTreninga;
+		this.cena = cena;
+		this.vrstaTreninga = vrstaTreninga;
+		this.nivoTreninga = nivoTreninga;
+		this.trajanje = trajanje;
+		this.ocena = ocena;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getNaziv() {
+		return naziv;
+	}
+	public void setNaziv(String naziv) {
+		this.naziv = naziv;
+	}
+	public String getTrener() {
+		return trener;
+	}
+	public void setTrener(String trener) {
+		this.trener = trener;
+	}
+	public String getOpis() {
+		return opis;
+	}
+	public void setOpis(String opis) {
+		this.opis = opis;
+	}
+	public String getSlika() {
+		return slika;
+	}
+	public void setSlika(String slika) {
+		this.slika = slika;
+	}
+	public TipTreninga getTipTreninga() {
+		return tipTreninga;
+	}
+	public void setTipTreninga(TipTreninga tipTreninga) {
+		this.tipTreninga = tipTreninga;
+	}
+	public double getCena() {
+		return cena;
+	}
+	public void setCena(double cena) {
+		this.cena = cena;
+	}
+	public String getVrstaTreninga() {
+		return vrstaTreninga;
+	}
+	public void setVrstaTreninga(String vrstaTreninga) {
+		this.vrstaTreninga = vrstaTreninga;
+	}
+	public String getNivoTreninga() {
+		return nivoTreninga;
+	}
+	public void setNivoTreninga(String nivoTreninga) {
+		this.nivoTreninga = nivoTreninga;
+	}
+	public LocalTime getTrajanje() {
+		return trajanje;
+	}
+	public void setTrajanje(LocalTime trajanje) {
+		this.trajanje = trajanje;
+	}
+	public float getOcena() {
+		return ocena;
+	}
+	public void setOcena(float ocena) {
+		this.ocena = ocena;
+	}
+	
+	
 	
 
 }
