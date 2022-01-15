@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Pocetna</title>
+</head>
+<body>
+	<table class="tabela">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="registracija.html">registracija</a></li>
+					<li><a href="login.html">login</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="get">
+		<table class="tabela">
+		<caption>Treninzi</caption>
+		</table>
+	</form>
+		<table class="tabela">
+			<tr>
+				<th>Redni br.</th>
+				<th>Slika</th>
+				<th>Naziv</th>
+				<th>Cena</th>
+				<th>Prosecna ocena</th>
+				<th></th>
+			</tr>
+			<tr th:each="itTrening, status: ${treninzi}">
+					<td class="broj" th:text="${status.index + 1}"></td>
+					<td><img th:src="${itTrening.slika}" style="width:150px;height:150px"></td>
+					<td th:text="${itTrening.naziv}"></td>
+					<td th:text="${itTrening.cena}"></td>
+					<td th:text="${itTrening.ocena}"></td>
+				</tr>
+		</table>
+</body>
+</html>

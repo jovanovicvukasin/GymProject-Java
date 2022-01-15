@@ -1,6 +1,8 @@
 package com.ftn.Teretana.model;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Trening {
 	
@@ -9,18 +11,17 @@ public class Trening {
 	private String trener;
 	private String opis;
 	private String slika;
-	private TipTreninga tipTreninga;
+	private List<TipTreninga> tipTreninga = new ArrayList<>();
 	private double cena;
 	private String vrstaTreninga; //pojedinacni ili grupni
 	private String nivoTreninga; //amaterski, srednji ili napredni
 	private LocalTime trajanje;
 	private float ocena;
 	
-	public Trening() {
-
-	}
 	
-	public Trening(String naziv, String trener, String opis, String slika, TipTreninga tipTreninga, double cena,
+	public Trening() {
+	}
+	public Trening(String naziv, String trener, String opis, String slika, List<TipTreninga> tipTreninga, double cena,
 			String vrstaTreninga, String nivoTreninga, LocalTime trajanje, float ocena) {
 		super();
 		this.naziv = naziv;
@@ -34,7 +35,7 @@ public class Trening {
 		this.trajanje = trajanje;
 		this.ocena = ocena;
 	}
-	public Trening(Long id, String naziv, String trener, String opis, String slika, TipTreninga tipTreninga,
+	public Trening(Long id, String naziv, String trener, String opis, String slika, List<TipTreninga> tipTreninga,
 			double cena, String vrstaTreninga, String nivoTreninga, LocalTime trajanje, float ocena) {
 		super();
 		this.id = id;
@@ -43,6 +44,23 @@ public class Trening {
 		this.opis = opis;
 		this.slika = slika;
 		this.tipTreninga = tipTreninga;
+		this.cena = cena;
+		this.vrstaTreninga = vrstaTreninga;
+		this.nivoTreninga = nivoTreninga;
+		this.trajanje = trajanje;
+		this.ocena = ocena;
+	}
+	
+	
+	
+	public Trening(Long id, String naziv, String trener, String opis, String slika, double cena, String vrstaTreninga,
+			String nivoTreninga, LocalTime trajanje, float ocena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.trener = trener;
+		this.opis = opis;
+		this.slika = slika;
 		this.cena = cena;
 		this.vrstaTreninga = vrstaTreninga;
 		this.nivoTreninga = nivoTreninga;
@@ -79,10 +97,11 @@ public class Trening {
 	public void setSlika(String slika) {
 		this.slika = slika;
 	}
-	public TipTreninga getTipTreninga() {
+	
+	public List<TipTreninga> getTipTreninga() {
 		return tipTreninga;
 	}
-	public void setTipTreninga(TipTreninga tipTreninga) {
+	public void setTipTreninga(List<TipTreninga> tipTreninga) {
 		this.tipTreninga = tipTreninga;
 	}
 	public double getCena() {
