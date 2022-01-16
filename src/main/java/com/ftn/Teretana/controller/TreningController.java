@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,8 +44,31 @@ public class TreningController implements ServletContextAware{
 	} 
 	
 	@GetMapping
-	public ModelAndView index() {
-		List<Trening> treninzi = treningService.findAll();
+	public ModelAndView index(
+			@RequestParam(required=false) String naziv,
+			@RequestParam(required=false) String trener,
+			@RequestParam(required=false) Double cenaOd, 
+			@RequestParam(required=false) Double cenaDo,
+			@RequestParam(required=false) Long tipTreningaId,
+			@RequestParam(required=false) String vrstaTreninga,
+			@RequestParam(required=false) String nivoTreninga) {
+		
+		if(naziv != null && naziv.trim().equals(""))
+			naziv = null;
+		
+		if(trener != null && trener.trim().equals(""))
+			trener = null;
+		
+		if(vrstaTreninga != null && vrstaTreninga.trim().equals(""))
+			vrstaTreninga = null;
+		
+		if(nivoTreninga != null && nivoTreninga.trim().equals(""))
+			nivoTreninga = null;
+		
+		List<Trening> treninzi = treningService.find(naziv, tipTreningaId, trener, cenaOd, cenaDo, vrstaTreninga, nivoTreninga);
+		
+		
+		//List<Trening> treninzi = treningService.findAll();
 		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
 		ModelAndView rezultat = new ModelAndView("index");
 		rezultat.addObject("treninzi", treninzi);

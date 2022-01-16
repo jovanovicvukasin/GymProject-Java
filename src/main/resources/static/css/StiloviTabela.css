@@ -1,0 +1,29 @@
+table {
+	border-collapse: collapse;
+}
+
+caption {
+	font-size: 16pt;
+	margin-left: 100%;
+}
+
+.tabela {
+	border: 1px solid black;
+	padding: 5px;
+	width: 130px;
+	
+}
+
+.tabela1{
+	margin-left: 7%;
+}
+
+th {
+	color: white;
+	background-color: black;
+}
+
+tr{
+	border-bottom: 2px solid black;
+}
+

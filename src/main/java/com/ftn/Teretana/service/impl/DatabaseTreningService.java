@@ -21,4 +21,11 @@ public class DatabaseTreningService implements TreningService {
 		return treningDAO.findAll();
 	}
 
+	@Override
+	public List<Trening> find(String naziv, Long tipTreningaId, String trener, Double cenaOd, Double cenaDo,
+			String vrstaTreninga, String nivoTreninga) {
+		// TODO Auto-generated method stub
+		return treningDAO.find(naziv, tipTreningaId, trener, cenaOd, cenaDo, vrstaTreninga, nivoTreninga);
+	}
+
 }

@@ -7,7 +7,7 @@
 	<title>Pocetna</title>
 </head>
 <body>
-	<table class="tabela">
+	<table class="tabela1">
 		<tr>
 			<td>
 				<ul>
@@ -20,11 +20,42 @@
 	<form method="get">
 		<table class="tabela">
 		<caption>Treninzi</caption>
+		<tr>
+				<th class="pretraga"> 
+				Naziv:<input type="search"  name="naziv" th:value="${param.naziv}?: null"/><br/>
+				Trener:<input type="search" name="trener" th:value="${param.trener}?: null"/>
+				</th>
+				<th class="pretraga">
+					Cena od:<input type="number" min="0" th:value="${param.cenaOd}?: '0'" name="cenaOd"/><br/>
+					Cena do:<input type="number" min="0" th:value="${param.cenaDo}?: '5000'" name="cenaDo"/>
+				</th>
+				<th class="pretraga">
+					<select name="tipTreningaId">
+						<option value="">Tip treninga</option>
+						<option th:each="itTipTreninga: ${tipoviTreninga}" th:value="${itTipTreninga.id}" th:text="${itTipTreninga.ime}" th:selected="${#strings.equals(itTipTreninga.id, param.tipTreningaId)}"></option>
+					</select><br/>
+				</th>
+				<th class="pretraga">
+					<select name="vrstaTreninga">
+						<option value="">Vrsta treninga</option>
+						<option value="pojedinacni">Pojedinacni trening</option>
+						<option value="grupni">Grupni trening</option>
+					</select><br/>
+				</th>
+				<th class="pretraga">
+					<select name="nivoTreninga">
+						<option value="">Nivo treninga</option>
+						<option value="amaterski">Amaterski nivo</option>
+						<option value="srednji">Srednji nivo</option>
+						<option value="napredni">Napredni nivo</option></select><br/>
+				</th>
+				<th class="pretraga"><input  type="submit" value="Pretrazi"/></th>
+			</tr>
 		</table>
 	</form>
 		<table class="tabela">
 			<tr>
-				<th>Redni br.</th>
+				<th>BR.</th>
 				<th>Slika</th>
 				<th>Naziv</th>
 				<th>Cena</th>
@@ -33,7 +64,7 @@
 			</tr>
 			<tr th:each="itTrening, status: ${treninzi}">
 					<td class="broj" th:text="${status.index + 1}"></td>
-					<td><img th:src="${itTrening.slika}" style="width:150px;height:150px"></td>
+					<td><img th:src="${itTrening.slika}" style="width:100px;height:100px"></td>
 					<td th:text="${itTrening.naziv}"></td>
 					<td th:text="${itTrening.cena}"></td>
 					<td th:text="${itTrening.ocena}"></td>
