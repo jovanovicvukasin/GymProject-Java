@@ -9,4 +9,6 @@ public interface TipTreningaService {
 	TipTreninga findOne(Long id);
 	List<TipTreninga> findAll();
 	List<TipTreninga> find(String ime, String opis);
+	List<TipTreninga> find(Long[] ids);
+
 }

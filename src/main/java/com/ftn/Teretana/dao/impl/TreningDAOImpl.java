@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.Teretana.dao.TipTreningaDAO;
 import com.ftn.Teretana.dao.TreningDAO;
@@ -271,6 +272,32 @@ public class TreningDAOImpl implements TreningDAO {
 		jdbcTemlate.query(sql, rowCallbackHandler, id);
 		
 		return rowCallbackHandler.getTreninzi().get(0);
+	}
+
+	@Transactional
+	@Override
+	public int edit(Trening trening) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM treningTipTreninga WHERE treningId = ? ";
+		jdbcTemlate.update(sql, trening.getId());
+		
+		boolean uspeh = true;
+		sql = "INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (?, ?) ";
+		for (TipTreninga itTipTreninga : trening.getTipTreninga()) {
+			uspeh = uspeh && jdbcTemlate.update(sql, trening.getId(), itTipTreninga.getId()) == 1;
+			
+		}
+		
+		sql = "UPDATE treninzi SET naziv = ?, trener = ?, opis = ?, cena = ?, vrstaTreninga = ?, nivoTreninga = ?, trajanje = ? WHERE id = ?";
+		uspeh = jdbcTemlate.update(sql, trening.getNaziv(), trening.getTrener(), trening.getOpis(), trening.getCena(), trening.getVrstaTreninga(), trening.getNivoTreninga(), trening.getTrajanje(), trening.getId()) == 1;
+		
+		return uspeh?1:0;
+	}
+
+	@Override
+	public int save(Trening trening) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	

@@ -34,4 +34,18 @@ public class DatabaseTreningService implements TreningService {
 		return treningDAO.findOne(id);
 	}
 
+	@Override
+	public Trening edit(Trening trening) {
+		// TODO Auto-generated method stub
+		treningDAO.edit(trening);
+		return trening;
+	}
+
+	@Override
+	public Trening save(Trening trening) {
+		// TODO Auto-generated method stub
+		treningDAO.save(trening);
+		return trening;
+	}
+
 }

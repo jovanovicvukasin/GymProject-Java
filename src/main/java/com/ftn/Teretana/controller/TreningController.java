@@ -1,15 +1,21 @@
 package com.ftn.Teretana.controller;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
@@ -103,6 +109,45 @@ public class TreningController implements ServletContextAware{
 		return rezultat;// prosleđivanje zahteva zajedno sa podacima template-u
 
 	}
+	
+	@PostMapping(value="/trening/edit")
+	public void edit(@RequestParam Long id, @RequestParam String naziv, @RequestParam String trener,
+			@RequestParam(name="tipTreningaId", required=false) Long[] tipTreningaId,
+			@RequestParam String opis, @RequestParam Double cena, 
+			@RequestParam String vrstaTreninga, @RequestParam String nivoTreninga, 
+			@RequestParam @DateTimeFormat(iso = ISO.TIME) LocalTime trajanje,
+			HttpSession session, HttpServletResponse response) throws IOException {
+		
+		
+		//validacija
+		Trening trening = treningService.findOne(id);
+		if(trening == null) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		if (naziv == null || naziv.equals("") || trener == null || trener.equals("") || opis == null || opis.equals("") || 
+				cena == 0 || cena.equals(null) || trajanje == null || tipTreningaId == null || nivoTreninga == null || vrstaTreninga == null) {
+			response.sendRedirect(baseURL + "treninzi/details?id=" + id);
+			return;
+		}
+		
+		//izmena
+		trening.setNaziv(naziv);
+		trening.setTrener(trener);
+		trening.setOpis(opis);
+		trening.setCena(cena);
+		trening.setVrstaTreninga(vrstaTreninga);
+		trening.setNivoTreninga(nivoTreninga);
+		trening.setTrajanje(trajanje);
+		trening.setTipTreninga(tipTreningaService.find(tipTreningaId));
+		treningService.edit(trening);
+		
+		response.sendRedirect(baseURL);
+		
+	}
+	
+	
 	
 	
 }
