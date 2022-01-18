@@ -8,6 +8,7 @@ public interface TreningDAO {
 	
 	public List<Trening> findAll();
 	List<Trening> find(String naziv, Long tipTreningaId,String trener, Double cenaOd, Double cenaDo, String vrstaTreninga, String nivoTreninga);
+	public Trening findOne(Long id);
 
 
 }

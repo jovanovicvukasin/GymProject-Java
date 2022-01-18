@@ -1,29 +1,28 @@
-table {
-	border-collapse: collapse;
-}
-
 caption {
 	font-size: 16pt;
-	margin-left: 100%;
 }
 
 .tabela {
-	border: 1px solid black;
+	border: 2px solid black;
 	padding: 5px;
 	width: 130px;
+	margin-left: 12%;
 	
 }
 
-.tabela1{
-	margin-left: 7%;
-}
-
-th {
-	color: white;
-	background-color: black;
-}
-
-tr{
+.tabelaPretraga{
+	background-color: white;
 	border-bottom: 2px solid black;
+	border-top: 2px solid black;
+	color: black;
+}
+
+.tabela th{
+	background-color: black;
+	color: white;
+}
+
+.tabela1{
+	margin-left: 20%;
 }
 

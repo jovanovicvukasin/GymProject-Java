@@ -1,5 +1,7 @@
 package com.ftn.Teretana.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -75,4 +77,32 @@ public class TreningController implements ServletContextAware{
 		rezultat.addObject("tipoviTreninga", tipoviTreninga);
 		return rezultat;
 	}
+	
+	@GetMapping(value="/treninzi/details")
+	public ModelAndView details(@RequestParam Long id) throws IOException {
+
+		Trening trening = treningService.findOne(id);
+		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
+		List<String> vrstaTreninga = new ArrayList<String>();
+		vrstaTreninga.add("pojedinacni");
+		vrstaTreninga.add("grupni");
+		List<String> nivoTreninga = new ArrayList<>();
+		nivoTreninga.add("amaterski");
+		nivoTreninga.add("srednji");
+		nivoTreninga.add("napredni");
+		// podaci sa nazivom template-a
+		ModelAndView rezultat = new ModelAndView("trening");// naziv template-a
+		rezultat.addObject("trening", trening); // naziv template-a
+		rezultat.addObject("tipoviTreninga", tipoviTreninga);
+		rezultat.addObject("vrsteTreninga", vrstaTreninga);
+		rezultat.addObject("nivoiTreninga", nivoTreninga);
+
+
+
+		
+		return rezultat;// prosleđivanje zahteva zajedno sa podacima template-u
+
+	}
+	
+	
 }

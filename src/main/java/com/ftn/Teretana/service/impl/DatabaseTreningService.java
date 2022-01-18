@@ -28,4 +28,10 @@ public class DatabaseTreningService implements TreningService {
 		return treningDAO.find(naziv, tipTreningaId, trener, cenaOd, cenaDo, vrstaTreninga, nivoTreninga);
 	}
 
+	@Override
+	public Trening findOne(Long id) {
+		// TODO Auto-generated method stub
+		return treningDAO.findOne(id);
+	}
+
 }

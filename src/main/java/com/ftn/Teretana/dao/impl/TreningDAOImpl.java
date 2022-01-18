@@ -255,6 +255,23 @@ public class TreningDAOImpl implements TreningDAO {
 		}
 		return tipoviTTrening;
 	}
+
+	@Override
+	public Trening findOne(Long id) {
+		// TODO Auto-generated method stub
+		String sql = 
+				"SELECT t.id, t.naziv, t.trener, t.opis, t.slika, t.cena, t.vrstaTreninga, t.nivoTreninga, "
+				+ "t.trajanje, t.prosecnaOcena, tt.id, tt.ime, tt.opis FROM treninzi t " + 
+				"LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " + 
+				"LEFT JOIN tipoviTreninga tt ON ttt.tipTreningaId = tt.id " + 
+				"WHERE t.id = ? " + 
+				"ORDER BY t.id";
+
+		TreningRowCallBackHandler rowCallbackHandler = new TreningRowCallBackHandler();
+		jdbcTemlate.query(sql, rowCallbackHandler, id);
+		
+		return rowCallbackHandler.getTreninzi().get(0);
+	}
 	
 	
 	

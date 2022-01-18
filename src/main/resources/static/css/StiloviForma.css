@@ -1,0 +1,48 @@
+.tabela1{
+	border-bottom: 2px solid Black;
+	margin-left: 10%;
+}
+
+.tabela {
+	border-collapse: collapse;
+	margin: 5px;
+}
+
+caption {
+	font-size: 16pt
+}
+
+.tabela td {
+	border: 2px solid Black;
+	padding: 5px;
+}
+
+.tabela th {
+	border: 2px solid Black;
+	padding: 5px;
+}
+
+th {
+	text-align: right;
+	width: 150px;
+	color: white;
+	background-color: black;
+}
+
+td {
+	background-color: White;
+	min-width: 250px;
+}
+
+input, textarea, select {
+	width: 250px;
+	box-sizing: border-box;
+}
+
+input[type="checkbox"] {
+	width: 20px;
+}
+
+input[type="radio"] {
+	width: 20px;
+}

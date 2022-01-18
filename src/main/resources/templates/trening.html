@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Trening</title>
+</head>
+<body>
+	<table class="tabela1">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="registracija.html">registracija</a></li>
+					<li><a href="login.html">login</a></li>
+					<li><a href="">Treninzi</a></li>    
+				</ul>
+			</td>
+		</tr>
+	</table>
+		<form method="post" action="trening/edit">
+		<input type="hidden" name="id" th:value="${trening.id}"/><!-- popuni value atribut vrednošću -->
+		<table class="tabela">
+			<caption>Trening</caption>
+			<tr><th>Naziv:</th><td><input type="text" th:value="${trening.naziv}" name="naziv"/></td></tr>
+			<tr><th>Trener:</th><td><input type="text" th:value="${trening.trener}" name="trener"/></td></tr>
+			<tr><th>Opis:</th><td><input type="text" th:value="${trening.opis}" name="opis"/></td></tr>
+			<tr><th>Slika:</th><td><img th:src="@{${trening.slika}}" style="width:150px;height:150px"></td></tr>
+			<tr>
+				<th>Tip treninga:</th>
+				<td>
+					<th:block th:each="itTipTreninga: ${tipoviTreninga}">
+						<input type="checkbox" name="tipTreningaId" th:value="${itTipTreninga.id}" th:checked="${#lists.contains(trening.tipTreninga, itTipTreninga)}"/><span th:text="${itTipTreninga.ime}"></span><br>
+					</th:block>
+				</td>
+			</tr>			
+			<tr><th>Cena:</th><td><input type="number" min="0" th:value="${trening.cena}" name="cena" required="required"/></td></tr>
+			<tr>
+				<th>Vrsta treninga:</th>
+				<td>
+					<select name="vrstaTreninga">
+       					<option th:each="vt : ${vrsteTreninga}"
+				            th:selected="${vt == trening.vrstaTreninga}" th:value="${vt}" th:text="${vt}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr>
+				<th>Nivo treninga:</th>
+				<td>
+					<select name="nivoTreninga">
+       					<option th:each="nt : ${nivoiTreninga}"
+				            th:selected="${nt == trening.nivoTreninga}" th:value="${nt}" th:text="${nt}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr><th>Trajanje:</th><td><input type="time" th:value="${trening.trajanje}" name="trajanje" required="required"/></td></tr>
+			<tr><th>Prosecna ocena:</th><td th:text="${trening.ocena}"></td>
+			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
+		</table>
+	</form>
+</body>
+</html>

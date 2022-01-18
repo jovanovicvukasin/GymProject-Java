@@ -18,8 +18,8 @@
 		</tr>
 	</table>
 	<form method="get">
-		<table class="tabela">
-		<caption>Treninzi</caption>
+		<table class="tabelaPretraga">
+		<caption>Pretraga treninga</caption>
 		<tr>
 				<th class="pretraga"> 
 				Naziv:<input type="search"  name="naziv" th:value="${param.naziv}?: null"/><br/>
@@ -54,18 +54,18 @@
 		</table>
 	</form>
 		<table class="tabela">
+		<caption>Treninzi</caption>
 			<tr>
 				<th>BR.</th>
 				<th>Slika</th>
 				<th>Naziv</th>
 				<th>Cena</th>
 				<th>Prosecna ocena</th>
-				<th></th>
 			</tr>
 			<tr th:each="itTrening, status: ${treninzi}">
 					<td class="broj" th:text="${status.index + 1}"></td>
 					<td><img th:src="${itTrening.slika}" style="width:100px;height:100px"></td>
-					<td th:text="${itTrening.naziv}"></td>
+					<td><a th:href="|treninzi/details?id=${itTrening.id}|" th:text="${itTrening.naziv}"></a></td>
 					<td th:text="${itTrening.cena}"></td>
 					<td th:text="${itTrening.ocena}"></td>
 				</tr>
