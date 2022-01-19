@@ -147,7 +147,50 @@ public class TreningController implements ServletContextAware{
 		
 	}
 	
+	@GetMapping(value="/trening/create")
+	public ModelAndView create() throws IOException{
+		
+		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
+		List<String> vrstaTreninga = new ArrayList<String>();
+		vrstaTreninga.add("pojedinacni");
+		vrstaTreninga.add("grupni");
+		List<String> nivoTreninga = new ArrayList<>();
+		nivoTreninga.add("amaterski");
+		nivoTreninga.add("srednji");
+		nivoTreninga.add("napredni");
+		
+		ModelAndView rezultat = new ModelAndView("dodavanjeTreninga");
+		rezultat.addObject("tipoviTreninga", tipoviTreninga);
+		rezultat.addObject("vrsteTreninga", vrstaTreninga);
+		rezultat.addObject("nivoiTreninga", nivoTreninga);
+		
+		return rezultat;
+		
+	}
 	
+	@PostMapping(value="trening/create")
+	public void create(@RequestParam String naziv, @RequestParam String trener,
+			@RequestParam(name="tipTreningaId", required=false) Long[] tipTreningaId,
+			@RequestParam String opis, @RequestParam Double cena, 
+			@RequestParam String vrstaTreninga, @RequestParam String nivoTreninga, 
+			@RequestParam @DateTimeFormat(iso = ISO.TIME) LocalTime trajanje,
+			HttpSession session, HttpServletResponse response) throws IOException{
+		
+		
+		if (naziv == null || naziv.equals("") || trener == null || trener.equals("") || opis == null || opis.equals("") || 
+				cena == 0 || cena.equals(null) || trajanje == null || tipTreningaId == null || nivoTreninga == null || vrstaTreninga == null) {
+			response.sendRedirect(baseURL + "trening/create");
+			return;
+		}
+		
+		Trening trening = new Trening(naziv, trener, opis, cena, vrstaTreninga, nivoTreninga, trajanje);
+		trening.setTipTreninga(tipTreningaService.find(tipTreningaId));
+		treningService.save(trening);
+		
+		response.sendRedirect(baseURL);
+		
+	}
+
 	
 	
 }

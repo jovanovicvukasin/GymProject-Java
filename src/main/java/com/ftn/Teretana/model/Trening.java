@@ -21,6 +21,23 @@ public class Trening {
 	
 	public Trening() {
 	}
+	
+	
+	
+	public Trening(String naziv, String trener, String opis, double cena,
+			String vrstaTreninga, String nivoTreninga, LocalTime trajanje) {
+		super();
+		this.naziv = naziv;
+		this.trener = trener;
+		this.opis = opis;
+		this.cena = cena;
+		this.vrstaTreninga = vrstaTreninga;
+		this.nivoTreninga = nivoTreninga;
+		this.trajanje = trajanje;
+	}
+
+
+
 	public Trening(String naziv, String trener, String opis, String slika, List<TipTreninga> tipTreninga, double cena,
 			String vrstaTreninga, String nivoTreninga, LocalTime trajanje, float ocena) {
 		super();

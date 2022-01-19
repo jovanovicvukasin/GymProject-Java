@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Dodavanje treninga</title>
+</head>
+<body>
+	<table class="tabela1">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="registracija.html">registracija</a></li>
+					<li><a href="login.html">login</a></li>
+					<li><a href="">Treninzi</a></li>    
+				</ul>
+			</td>
+		</tr>
+	</table>
+		<form method="post" action="trening/create">
+		<table class="tabela">
+			<caption>Dodavanje treninga</caption>
+			<tr><th>Naziv:</th><td><input type="text" name="naziv"/></td></tr>
+			<tr><th>Trener:</th><td><input type="text" name="trener"/></td></tr>
+			<tr><th>Opis:</th><td><input type="text" name="opis"/></td></tr>
+			<tr><th>Slika:</th><td><img th:src="@{/images/fitness.jpg}" style="width:150px;height:150px"></td></tr>
+			<tr>
+				<th>Tip treninga:</th>
+				<td>
+					<th:block th:each="itTipTreninga: ${tipoviTreninga}">
+						<input type="checkbox" name="tipTreningaId" th:value="${itTipTreninga.id}"/><span th:text="${itTipTreninga.ime}"></span><br>
+					</th:block>
+				</td>
+			</tr>			
+			<tr><th>Cena:</th><td><input type="number" min="0" name="cena" required="required"/></td></tr>
+			<tr>
+				<th>Vrsta treninga:</th>
+				<td>
+					<select name="vrstaTreninga">
+       					<option th:each="vt : ${vrsteTreninga}"
+				             th:value="${vt}" th:text="${vt}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr>
+				<th>Nivo treninga:</th>
+				<td>
+					<select name="nivoTreninga">
+       					<option th:each="nt : ${nivoiTreninga}"
+				             th:value="${nt}" th:text="${nt}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr><th>Trajanje:</th><td><input type="time" name="trajanje" required="required"/></td></tr>
+			<tr><th></th><td><input type="submit" value="Dodaj"/></td></tr>
+		</table>
+	</form>
+</body>
+</html>

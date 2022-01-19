@@ -1,7 +1,11 @@
 package com.ftn.Teretana.dao.impl;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,8 +15,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -294,10 +300,47 @@ public class TreningDAOImpl implements TreningDAO {
 		return uspeh?1:0;
 	}
 
+	@Transactional
 	@Override
 	public int save(Trening trening) {
 		// TODO Auto-generated method stub
-		return 0;
+		PreparedStatementCreator preparedStatementCreator = new PreparedStatementCreator() {
+			
+			@Override
+			public PreparedStatement createPreparedStatement(Connection connection) throws SQLException{
+				String sql = "INSERT INTO treninzi (naziv, trener, opis, slika, cena, vrstaTreninga, nivoTreninga, trajanje, prosecnaOcena) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) ";
+
+				PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+				int index = 1;
+				preparedStatement.setString(index++, trening.getNaziv());
+				preparedStatement.setString(index++, trening.getTrener());
+				preparedStatement.setString(index++, trening.getOpis());
+				preparedStatement.setString(index++, "images/fitness.jpg");
+				preparedStatement.setDouble(index++, trening.getCena());
+				preparedStatement.setString(index++, trening.getVrstaTreninga());
+				preparedStatement.setString(index++, trening.getNivoTreninga());
+				preparedStatement.setObject(index++, trening.getTrajanje());
+				preparedStatement.setFloat(index++, 0);
+
+				return preparedStatement;
+			}
+		};
+		
+		GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+		boolean uspeh = jdbcTemlate.update(preparedStatementCreator, keyHolder) == 1;
+
+		if(uspeh) {
+			String sql = "INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (?, ?)";
+
+			for (TipTreninga itTipTreninga : trening.getTipTreninga()) {
+				uspeh = uspeh && jdbcTemlate.update(sql, keyHolder.getKey(), itTipTreninga.getId()) == 1;
+			}
+			
+		}
+		
+		
+		
+		return uspeh?1:0;
 	}
 	
 	
