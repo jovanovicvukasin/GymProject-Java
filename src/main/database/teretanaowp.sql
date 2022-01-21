@@ -33,6 +33,23 @@ CREATE TABLE treningTipTreninga (
 		ON DELETE CASCADE
 );
 
+CREATE TABLE korisnici (
+	id BIGINT AUTO_INCREMENT,
+	korisnickoIme VARCHAR(20) NOT NULL,
+	lozinka VARCHAR(20) NOT NULL,
+	email VARCHAR(20) NOT NULL,
+	ime VARCHAR(10) NOT NULL,
+	prezime VARCHAR(20) NOT NULL,
+	datumRodjenja DATE NOT NULL,
+	adresa VARCHAR(30) NOT NULL,
+	brojTelefona VARCHAR(20) NOT NULL,
+	datumIVremeRegistracije DATETIME NOT NULL,
+	uloga ENUM('administrator', 'korisnik') DEFAULT 'korisnik',
+    blokiran BOOL DEFAULT false,
+	PRIMARY KEY(id)
+);
+
+
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (1, 'Fitness', 'Funkcionalni trening.');
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (2, 'Cardio', 'Trening za postizanje i odrzavanje kondicije.');
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (3, 'Yoga', 'Trening koji opusta telo i misli.');
@@ -48,4 +65,7 @@ INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (2, 1);
 INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (3, 3);
 INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (4, 1);
 INSERT INTO treningTipTreninga (treningId, tipTreningaId) VALUES (4, 2);
+
+INSERT INTO korisnici(id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran) VALUES (1, 'pera', 'pera', 'pera@gmail.com', 'Pera', 'Peric', '1990-02-12', 'Bulevar Evrope 12, Novi Sad', '0620000000', '2022-01-01 17:00', 'administrator', false);
+INSERT INTO korisnici(id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran) VALUES (2, 'ana', 'ana', 'ana@gmail.com', 'Ana', 'Ana', '1998-05-07', 'Jevrejska 25, Novi Sad', '0630000000', '2022-01-01 19:00', 'korisnik', false);
 

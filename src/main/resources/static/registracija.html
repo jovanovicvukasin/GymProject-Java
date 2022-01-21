@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<base th:href="@{/}">
+	<title>Registracija</title>
+</head>
+<body>
+	<form method="post" action="Korisnici/Register">
+			<table class="forma">
+				<caption>Registracija</caption>
+				<tr><th>Korisnicko ime:</th><td><input type="text" name="korisnickoIme"/></td></tr>
+				<tr><th>Lozinka:</th><td><input type="password" name="lozinka"/></td></tr>
+				<tr><th>Ponovljena lozinka:</th><td><input type="password" name="ponovljenaLozinka"/></td></tr>
+				<tr><th>Email:</th><td><input type="text" name="email"/></td></tr>
+				<tr><th>Ime:</th><td><input type="text" name="ime"/></td></tr>
+				<tr><th>Prezime:</th><td><input type="text" name="prezime"/></td></tr>
+				<tr><th>Datum rodjenja:</th><td><input type="date" name="datumRodjenja"/></td></tr>
+				<tr><th>Adresa:</th><td><input type="text" name="adresa"/></td></tr>
+				<tr><th>Broj telefona:</th><td><input type="text" name="brojTelefona"/></td></tr>
+				<tr><th></th><td><input type="submit" value="registracija"/></td></tr>
+			</table>
+		</form>
+		<p class="greska" th:text="${poruka}"></p>
+</body>
+</html>
