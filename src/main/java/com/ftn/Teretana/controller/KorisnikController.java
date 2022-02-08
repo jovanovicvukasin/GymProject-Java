@@ -26,6 +26,8 @@ import com.ftn.Teretana.service.KorisnikService;
 @RequestMapping(value="/Korisnici")
 public class KorisnikController {
 	
+	//test
+	
 	@Autowired
 	private KorisnikService korisnikService;
 	
