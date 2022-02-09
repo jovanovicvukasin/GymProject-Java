@@ -26,7 +26,9 @@ import com.ftn.Teretana.service.KorisnikService;
 @RequestMapping(value="/Korisnici")
 public class KorisnikController {
 	
-	//test
+	
+	public static final String KORISNIK_KEY = "prijavljeniKorisnik";
+
 	
 	@Autowired
 	private KorisnikService korisnikService;
@@ -47,6 +49,10 @@ public class KorisnikController {
 			@RequestParam String adresa, @RequestParam String brojTelefona, HttpServletResponse response) throws IOException {
 		
 		try {
+			Korisnik postoji = korisnikService.findOne(korisnickoIme);
+			if(postoji != null) {
+				throw new Exception("Korisnik sa tim korisnickim imenom vec postoji!");
+			}
 			if (korisnickoIme.equals("") || lozinka.equals("") || ponovljenaLozinka.equals("") || email.equals("") || ime.equals("") ||
 					prezime.equals("") || datumRodjenja == null || adresa.equals("") || brojTelefona.equals("")) {
 					throw new Exception("Morate popuniti sva polja!");
@@ -77,6 +83,41 @@ public class KorisnikController {
 			return rezultat;
 
 		}
+		
+	}
+	
+	@PostMapping(value="/Login")
+	public ModelAndView login(@RequestParam String korisnickoIme, @RequestParam String sifra, 
+			HttpSession session, HttpServletResponse response) throws IOException {
+				
+		try {
+			Korisnik korisnik = korisnikService.findOne(korisnickoIme, sifra);
+			if(korisnik == null) {
+				throw new Exception("Neispravni podaci!");
+			}else if(korisnik.isBlokiran() == true) {
+				throw new Exception("Korisnik se ne moze logovati!");
+
+			}
+			
+			session.setAttribute(KorisnikController.KORISNIK_KEY, korisnik);
+			
+			response.sendRedirect(baseURL);
+
+			return null;
+		}catch (Exception e) {
+			// TODO: handle exception
+			String poruka = e.getMessage();
+			if(poruka == "") {
+				poruka = "Neuspesna prijava!";
+			}
+			
+			ModelAndView rez = new ModelAndView("login");
+			rez.addObject("poruka", poruka);
+			
+			return rez;
+
+		}
+		
 		
 	}
 

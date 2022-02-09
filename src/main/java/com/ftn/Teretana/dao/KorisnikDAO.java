@@ -10,5 +10,8 @@ public interface KorisnikDAO {
 
 	public void save(Korisnik korisnik);
 	public List<Korisnik> find(String korisnickoIme, String email, String ime, String prezime, LocalDate datumRodjenja, String adresa, String brojTelefona, LocalDateTime datumIVremeRegistracije, String uloga, Boolean blokiran);
-
+	public Korisnik findOne(String korisnickoIme);
+	Korisnik findOne(String korisnickoIme, String lozinka);
+	
+	
 }

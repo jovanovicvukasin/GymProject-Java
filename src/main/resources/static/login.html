@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8" />
+	<base th:href="@{/}">
 	<link rel="stylesheet" type="text/css" href="css/StiloviForma.css"/>
 	<title>Login</title>
 </head>
@@ -10,13 +11,14 @@
 		<li><a href="registracija.html">Registruj se</a></li>
 	</ul>
 	<br/>
-	<form method="post" action="korisnici/login">
+	<form method="post" action="Korisnici/Login">
 		<table>
 			<caption>Prijava korisnika na sistem</caption>
-			<tr><th>Email:</th><td><input type="text" value="" name="email" required/></td></tr>
+			<tr><th>Korisnicko ime:</th><td><input type="text" value="" name="korisnickoIme" required/></td></tr>
 			<tr><th>Šifra:</th><td><input type="password" value="" name="sifra" required/></td></tr>
 			<tr><th></th><td><input type="submit" value="Prijavi se" /></td>
 		</table>
 	</form>
+	<p class="greska" th:text="${poruka}"></p>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ftn.Teretana.dao.KorisnikDAO;
@@ -13,6 +14,7 @@ import com.ftn.Teretana.service.KorisnikService;
 @Service
 public class DatabaseKorisnikService implements KorisnikService {
 
+	@Autowired
 	private KorisnikDAO korisnikDAO;
 	
 	@Override
@@ -27,6 +29,18 @@ public class DatabaseKorisnikService implements KorisnikService {
 			String adresa, String brojTelefona, LocalDateTime datumIVremeRegistracije, String uloga, Boolean blokiran) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Korisnik findOne(String korisnickoIme) {
+		// TODO Auto-generated method stub
+		return korisnikDAO.findOne(korisnickoIme);
+	}
+
+	@Override
+	public Korisnik findOne(String korisnickoIme, String lozinka) {
+		// TODO Auto-generated method stub
+		return korisnikDAO.findOne(korisnickoIme, lozinka);
 	}
 
 	

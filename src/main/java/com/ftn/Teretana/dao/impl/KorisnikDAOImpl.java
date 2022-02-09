@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -58,6 +59,31 @@ public class KorisnikDAOImpl implements KorisnikDAO{
 			String adresa, String brojTelefona, LocalDateTime datumIVremeRegistracije, String uloga, Boolean blokiran) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Korisnik findOne(String korisnickoIme) {
+		// TODO Auto-generated method stub
+		try {
+			String sql = "SELECT id, korisnickoIme, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran FROM korisnici WHERE korisnickoIme = ?";
+			return jdbcTemplate.queryForObject(sql, new KorisnikRowMapper(), korisnickoIme);
+		}catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	public Korisnik findOne(String korisnickoIme, String lozinka) {
+		// TODO Auto-generated method stub
+		try {
+			
+			String sql = "SELECT id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran FROM korisnici WHERE korisnickoIme = ? AND lozinka = ?";
+			return jdbcTemplate.queryForObject(sql, new KorisnikRowMapper(), korisnickoIme, lozinka);
+		}catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 }
