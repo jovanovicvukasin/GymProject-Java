@@ -7,12 +7,39 @@
 	<title>Pocetna</title>
 </head>
 <body>
-	<table class="tabela1">
+	<table class="tabela1" th:if="${session.prijavljeniKorisnik == null}">
 		<tr>
 			<td>
 				<ul>
 					<li><a href="registracija.html">registracija</a></li>
 					<li><a href="login.html">login</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
+		<tr>
+			<td>
+				<ul>
+					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici">Korisnici</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+		<tr>
+			<td>
+				<ul>
+					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
 				</ul>
 			</td>
 		</tr>
@@ -71,7 +98,7 @@
 				</tr>
 		</table>
 		<ul>
-			<li><a href="trening/create">dodavanje treninga</a></li>
+			<li th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}"><a href="trening/create">dodavanje treninga</a></li>
 		</ul>
 </body>
 </html>

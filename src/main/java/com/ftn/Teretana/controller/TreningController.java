@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ftn.Teretana.model.Korisnik;
 import com.ftn.Teretana.model.TipTreninga;
 import com.ftn.Teretana.model.Trening;
 import com.ftn.Teretana.service.TipTreningaService;
@@ -118,6 +119,13 @@ public class TreningController implements ServletContextAware{
 			@RequestParam @DateTimeFormat(iso = ISO.TIME) LocalTime trajanje,
 			HttpSession session, HttpServletResponse response) throws IOException {
 		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		
 		
 		//validacija
 		Trening trening = treningService.findOne(id);
@@ -148,8 +156,13 @@ public class TreningController implements ServletContextAware{
 	}
 	
 	@GetMapping(value="/trening/create")
-	public ModelAndView create() throws IOException{
+	public ModelAndView create(HttpSession session, HttpServletResponse response) throws IOException{
 		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
 		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
 		List<String> vrstaTreninga = new ArrayList<String>();
 		vrstaTreninga.add("pojedinacni");
@@ -176,7 +189,10 @@ public class TreningController implements ServletContextAware{
 			@RequestParam @DateTimeFormat(iso = ISO.TIME) LocalTime trajanje,
 			HttpSession session, HttpServletResponse response) throws IOException{
 		
-		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+		}
 		if (naziv == null || naziv.equals("") || trener == null || trener.equals("") || opis == null || opis.equals("") || 
 				cena == 0 || cena.equals(null) || trajanje == null || tipTreningaId == null || nivoTreninga == null || vrstaTreninga == null) {
 			response.sendRedirect(baseURL + "trening/create");

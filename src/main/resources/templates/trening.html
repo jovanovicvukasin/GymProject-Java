@@ -7,7 +7,7 @@
 	<title>Trening</title>
 </head>
 <body>
-	<table class="tabela1">
+	<table class="tabela1" th:if="${session.prijavljeniKorisnik == null}">
 		<tr>
 			<td>
 				<ul>
@@ -18,7 +18,19 @@
 			</td>
 		</tr>
 	</table>
-		<form method="post" action="trening/edit">
+	<table th:if="${session.prijavljeniKorisnik != null}">
+		<tr>
+			<td>
+			<ul>
+				<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="post" action="trening/edit" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
 		<input type="hidden" name="id" th:value="${trening.id}"/><!-- popuni value atribut vrednošću -->
 		<table class="tabela">
 			<caption>Trening</caption>
@@ -60,5 +72,26 @@
 			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
 		</table>
 	</form>
+		<table class="forma" th:if="${session.prijavljeniKorisnik == null or session.prijavljeniKorisnik.uloga == 'korisnik'}">
+		<caption>Trening</caption>
+		<tr><th>Naziv:</th><td th:text="${trening.naziv}"></td>
+		<tr><th>Trener:</th><td th:text="${trening.trener}"></td>
+		<tr><th>Opis:</th><td th:text="${trening.opis}"></td>
+		<tr><th>Slika:</th><td><img th:src="@{${trening.slika}}" style="width:150px;height:150px"></td>
+		<tr>
+			<th>Tip treninga:</th>
+			<td>
+				<ul>
+					<li th:each="itTipTreninga: ${trening.tipTreninga}"><a th:text="${itTipTreninga.ime}"></a></li>
+				</ul>
+			</td>
+		</tr>
+		<tr><th>Cena:</th><td th:text="${trening.cena}"></td>
+		<tr><th>Vrsta treninga:</th><td th:text="${trening.vrstaTreninga}"></td>
+		<tr><th>Nivo treninga:</th><td th:text="${trening.nivoTreninga}"></td>
+		<tr><th>Trajanje:</th><td th:text="${trening.trajanje}"></td>
+		<tr><th>Prosecna ocena:</th><td th:text="${trening.ocena}"></td>
+		<tr>
+	</table>
 </body>
 </html>

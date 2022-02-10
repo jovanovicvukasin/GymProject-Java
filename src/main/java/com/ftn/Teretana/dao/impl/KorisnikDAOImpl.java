@@ -65,7 +65,7 @@ public class KorisnikDAOImpl implements KorisnikDAO{
 	public Korisnik findOne(String korisnickoIme) {
 		// TODO Auto-generated method stub
 		try {
-			String sql = "SELECT id, korisnickoIme, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran FROM korisnici WHERE korisnickoIme = ?";
+			String sql = "SELECT id, korisnickoIme, lozinka, email, ime, prezime, datumRodjenja, adresa, brojTelefona, datumIVremeRegistracije, uloga, blokiran FROM korisnici WHERE korisnickoIme = ?";
 			return jdbcTemplate.queryForObject(sql, new KorisnikRowMapper(), korisnickoIme);
 		}catch (EmptyResultDataAccessException e) {
 			// TODO: handle exception

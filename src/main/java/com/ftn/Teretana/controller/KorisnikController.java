@@ -120,5 +120,13 @@ public class KorisnikController {
 		
 		
 	}
+	
+	@GetMapping(value="/Logout")
+	public void logout(HttpSession session, HttpServletResponse response) throws IOException{
+		
+		session.invalidate();
+		
+		response.sendRedirect(baseURL);
+	}
 
 }
