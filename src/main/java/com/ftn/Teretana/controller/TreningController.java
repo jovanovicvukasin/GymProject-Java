@@ -22,8 +22,10 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ftn.Teretana.model.Korisnik;
+import com.ftn.Teretana.model.TerminTreninga;
 import com.ftn.Teretana.model.TipTreninga;
 import com.ftn.Teretana.model.Trening;
+import com.ftn.Teretana.service.TerminService;
 import com.ftn.Teretana.service.TipTreningaService;
 import com.ftn.Teretana.service.TreningService;
 
@@ -33,6 +35,9 @@ public class TreningController implements ServletContextAware{
 	
 	@Autowired
 	private TreningService treningService;
+	
+	@Autowired
+	private TerminService terminService;
 	
 	@Autowired
 	private TipTreningaService tipTreningaService;
@@ -89,6 +94,7 @@ public class TreningController implements ServletContextAware{
 	public ModelAndView details(@RequestParam Long id) throws IOException {
 
 		Trening trening = treningService.findOne(id);
+		List<TerminTreninga> termini = terminService.findTrening(id);
 		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
 		List<String> vrstaTreninga = new ArrayList<String>();
 		vrstaTreninga.add("pojedinacni");
@@ -101,6 +107,7 @@ public class TreningController implements ServletContextAware{
 		ModelAndView rezultat = new ModelAndView("trening");// naziv template-a
 		rezultat.addObject("trening", trening); // naziv template-a
 		rezultat.addObject("tipoviTreninga", tipoviTreninga);
+		rezultat.addObject("termini", termini);
 		rezultat.addObject("vrsteTreninga", vrstaTreninga);
 		rezultat.addObject("nivoiTreninga", nivoTreninga);
 

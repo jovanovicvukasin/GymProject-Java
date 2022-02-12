@@ -7,6 +7,7 @@ caption {
 	padding: 5px;
 	width: 130px;
 	margin-left: 12%;
+	text-align: left;
 	
 }
 
@@ -20,6 +21,7 @@ caption {
 .tabela th{
 	background-color: black;
 	color: white;
+	text-align: left;
 }
 
 .tabela1{

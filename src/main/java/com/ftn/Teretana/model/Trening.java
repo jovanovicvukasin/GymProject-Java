@@ -24,6 +24,18 @@ public class Trening {
 	
 	
 	
+	
+	
+	public Trening(Long id, String naziv) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+	}
+
+
+
+
+
 	public Trening(String naziv, String trener, String opis, double cena,
 			String vrstaTreninga, String nivoTreninga, LocalTime trajanje) {
 		super();
