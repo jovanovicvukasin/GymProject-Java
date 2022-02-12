@@ -27,4 +27,10 @@ public class DatabaseTerminService implements TerminService {
 		return terminTreningaDAO.findAll();
 	}
 
+	@Override
+	public TerminTreninga findOne(Long id) {
+		// TODO Auto-generated method stub
+		return terminTreningaDAO.findOne(id);
+	}
+
 }

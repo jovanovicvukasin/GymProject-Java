@@ -108,7 +108,14 @@
 					<td th:text="${itTermin.sala.oznakaSale}"></td>
 					<td th:text="${itTermin.trening.naziv}"></td>
 					<td th:text="${itTermin.datum}"></td>
-					<td th:if="${session.prijavljeniKorisnik != null}"><input type="submit" value="Dodaj u korpu"/></td>
+					<td>
+					<form method="post" action="Korpa/Create" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+						<input type="hidden" name="treningId" th:value="${itTermin.trening.id}"/>
+						<input type="hidden" name="terminId" th:value="${itTermin.id}"/>
+						<input type="hidden" name="korisnikId" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
+						<input type="submit" value="Dodaj u korpu"/>
+					</form>
+					</td>
 					<td th:if="${session.prijavljeniKorisnik != null}"><input type="submit" value="Dodaj u listu zelja"/></td>
 				</tr>
 		</table>

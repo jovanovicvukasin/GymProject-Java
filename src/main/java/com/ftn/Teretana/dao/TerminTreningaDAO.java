@@ -8,7 +8,7 @@ public interface TerminTreningaDAO {
 	
 	public List<TerminTreninga> findAll();
 	public List<TerminTreninga> findTrening(Long id);
-	
+	public TerminTreninga findOne(Long id);
 
 
 }

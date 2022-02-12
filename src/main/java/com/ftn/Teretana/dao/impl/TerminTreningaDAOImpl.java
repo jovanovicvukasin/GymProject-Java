@@ -85,4 +85,16 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
 	}
 
+	@Override
+	public TerminTreninga findOne(Long id) {
+		// TODO Auto-generated method stub
+		
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv " +
+				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
+				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				"WHERE tt.id = ? " +
+				"ORDER BY tt.id";
+		return jdbcTemplate.queryForObject(sql, new TerminTreningaRowMapper(), id);
+	}
+
 }
