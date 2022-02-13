@@ -1,5 +1,7 @@
 package com.ftn.Teretana.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,18 @@ public class DatabaseKorpaService implements KorpaService {
 		// TODO Auto-generated method stub
 		korpaDAO.save(korpa);
 		return korpa;
+	}
+
+	@Override
+	public List<Korpa> findAll() {
+		// TODO Auto-generated method stub
+		return korpaDAO.findAll();
+	}
+
+	@Override
+	public Korpa findOne(Long id) {
+		// TODO Auto-generated method stub
+		return korpaDAO.findOne(id);
 	}
 
 }
