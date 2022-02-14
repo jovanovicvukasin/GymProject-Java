@@ -11,6 +11,25 @@ public class TerminTreninga {
 	
 	public TerminTreninga() {
 	}
+	
+	
+
+	public TerminTreninga(Long id, Trening trening, LocalDateTime datum) {
+		super();
+		this.id = id;
+		this.trening = trening;
+		this.datum = datum;
+	}
+
+
+
+	public TerminTreninga(Long id, LocalDateTime datum) {
+		super();
+		this.id = id;
+		this.datum = datum;
+	}
+
+
 
 	public TerminTreninga(Sala sala, Trening trening, LocalDateTime datum) {
 		super();

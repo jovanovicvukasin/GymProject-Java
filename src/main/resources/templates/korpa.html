@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviTabela.css}"/>
+	<base th:href="@{/}">
+	<title>Korpa</title>
+</head>
+<body>
+	<table th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+		<tr>
+			<td>
+				<ul>
+					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
+				</ul>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+		<caption>Korpa</caption>
+		<tr>
+			<th>Redni br.</th>
+			<th>Naziv treninga</th>
+			<th>Trener</th>
+			<th>Tip treninga</th>
+			<th>Datum i vreme</th>
+			<th>Cena</th>
+			<th></th>
+		</tr>
+		<tr th:each="itKorpa, status: ${korpe}">
+			<td class="broj" th:text="${status.index + 1}"> </td>
+			<td th:text="${itKorpa.terminTreninga.trening.naziv}"></td>
+			<td th:text="${itKorpa.terminTreninga.trening.trener}"></td>
+			<td>	
+				<ul th:each="itTrening: ${treninzi}" th:if="${itTrening.id == itKorpa.terminTreninga.trening.id}">
+					<li th:each="itTip: ${itTrening.tipTreninga}"><a th:text="${itTip.ime}"></a></li>
+				</ul>
+			</td>
+			<td class="broj" th:text="${itKorpa.terminTreninga.datum}"></td>
+			<td class="broj" th:text="${itKorpa.terminTreninga.trening.cena}"></td>
+			<td><form method="post" action="Korpa/Delete">
+					<input type="hidden" name="id" th:value="${itKorpa.id}">
+					<input type="submit" value="Ukloni"/>
+				</form>
+			</td><tr>
+	</table>
+	</body>
+</html>

@@ -3,7 +3,7 @@ package com.ftn.Teretana.model;
 public class Korpa {
 	
 	private Long id;
-	private Trening trening;
+	//private Trening trening;
 	private TerminTreninga terminTreninga;
 	private Korisnik korisnik;
 	private boolean aktivna = true;
@@ -14,25 +14,23 @@ public class Korpa {
 	public Korpa() {
 	}
 
-	public Korpa(Trening trening, TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
+	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
 		super();
-		this.trening = trening;
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
 		this.aktivna = aktivna;
 	}
 
-	public Korpa(Trening trening, TerminTreninga terminTreninga, Korisnik korisnik) {
+	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik) {
 		super();
-		this.trening = trening;
+		
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
 	}
 
-	public Korpa(Long id, Trening trening, TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
+	public Korpa(Long id, TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
 		super();
 		this.id = id;
-		this.trening = trening;
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
 		this.aktivna = aktivna;
@@ -44,12 +42,7 @@ public class Korpa {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Trening getTrening() {
-		return trening;
-	}
-	public void setTrening(Trening trening) {
-		this.trening = trening;
-	}
+
 	public TerminTreninga getTerminTreninga() {
 		return terminTreninga;
 	}

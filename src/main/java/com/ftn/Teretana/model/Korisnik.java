@@ -27,6 +27,20 @@ public class Korisnik {
 	
 	
 	
+	
+	
+	public Korisnik(Long id, String korisnickoIme) {
+		super();
+		this.id = id;
+		this.korisnickoIme = korisnickoIme;
+	}
+
+
+
+
+
+
+
 	public Korisnik(String korisnickoIme, String lozinka, String email, String ime, String prezime,
 			LocalDate datumRodjenja, String adresa, String brojTelefona, LocalDateTime datumIVremeRegistracije,
 			String uloga) {

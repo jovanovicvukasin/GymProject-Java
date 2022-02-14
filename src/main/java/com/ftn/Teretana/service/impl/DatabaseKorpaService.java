@@ -34,4 +34,12 @@ public class DatabaseKorpaService implements KorpaService {
 		return korpaDAO.findOne(id);
 	}
 
+	@Override
+	public List<Korpa> findForOne(Long id) {
+		// TODO Auto-generated method stub
+		return korpaDAO.findForOne(id);
+	}
+
+	
+
 }

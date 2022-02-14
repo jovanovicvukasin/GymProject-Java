@@ -12,20 +12,40 @@ public class Trening {
 	private String opis;
 	private String slika;
 	private List<TipTreninga> tipTreninga = new ArrayList<>();
-	private double cena;
 	private String vrstaTreninga; //pojedinacni ili grupni
 	private String nivoTreninga; //amaterski, srednji ili napredni
 	private LocalTime trajanje;
 	private float ocena;
-	
-	
+	private double cena;
+
 	public Trening() {
 	}
 	
 	
-	
-	
-	
+
+	public Trening(Long id, String naziv, String trener, List<TipTreninga> tipTreninga, double cena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.trener = trener;
+		this.tipTreninga = tipTreninga;
+		this.cena = cena;
+	}
+
+
+
+	public Trening(Long id, String naziv, String trener, double cena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.trener = trener;
+		this.cena = cena;
+	}
+
+
+
+
+
 	public Trening(Long id, String naziv) {
 		super();
 		this.id = id;

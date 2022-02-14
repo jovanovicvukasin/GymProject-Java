@@ -9,5 +9,7 @@ public interface KorpaDAO {
 	public int save(Korpa korpa); 
 	public List<Korpa> findAll();
 	public Korpa findOne(Long id);
+	public List<Korpa> findForOne(Long id);
+
 
 }
