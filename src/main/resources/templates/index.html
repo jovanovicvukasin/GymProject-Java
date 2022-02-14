@@ -27,6 +27,9 @@
 					<li><a href="Korisnici">Korisnici</a></li>
 				</ul>
 				<ul>
+					<li><a href="Sale">Sale</a></li>
+				</ul>
+				<ul>
 					<li><a href="Korisnici/Logout">logout</a></li>
 				</ul>
 			</td>
@@ -38,6 +41,7 @@
 				<ul>
 					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
 					<li><a href="Korpa">Korpa</a></li>
+					<li><a th:href="|ZeljeniTreninzi?korisnikId=${session.prijavljeniKorisnik.id}|">Lista zelja</a></li>
 				</ul>
 				<ul>
 					<li><a href="Korisnici/Logout">logout</a></li>

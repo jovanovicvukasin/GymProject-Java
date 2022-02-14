@@ -11,9 +11,6 @@
 		<tr>
 			<td>
 				<ul>
-					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
-				</ul>
-				<ul>
 					<li><a href="">Treninzi</a></li>
 				</ul>
 				<ul>
@@ -39,7 +36,7 @@
 			<td th:text="${itKorpa.terminTreninga.trening.trener}"></td>
 			<td>	
 				<ul th:each="itTrening: ${treninzi}" th:if="${itTrening.id == itKorpa.terminTreninga.trening.id}">
-					<li th:each="itTip: ${itTrening.tipTreninga}"><a th:text="${itTip.ime}"></a></li>
+					<li th:each="itTip: ${itKorpa.terminTreninga.trening.tipTreninga}"><a th:text="${itTip.ime + '&nbsp;' + '|' + '&nbsp;' + itTip.opis}"></a></li>
 				</ul>
 			</td>
 			<td class="broj" th:text="${itKorpa.terminTreninga.datum}"></td>

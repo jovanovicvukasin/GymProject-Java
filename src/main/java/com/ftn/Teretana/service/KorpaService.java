@@ -10,6 +10,7 @@ public interface KorpaService {
 	List<Korpa> findAll();
 	Korpa findOne(Long id);
 	List<Korpa> findForOne(Long id);
+	Korpa delete(Long id);
 
 
 }

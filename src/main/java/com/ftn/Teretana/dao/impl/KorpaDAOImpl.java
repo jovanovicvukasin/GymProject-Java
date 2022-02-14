@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ftn.Teretana.dao.KorpaDAO;
+import com.ftn.Teretana.dao.TreningDAO;
 import com.ftn.Teretana.model.Korisnik;
 import com.ftn.Teretana.model.Korpa;
 import com.ftn.Teretana.model.TerminTreninga;
@@ -24,6 +25,9 @@ public class KorpaDAOImpl implements KorpaDAO {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private TreningDAO treningDAO;
 	
 	private class KorpaRowMapper implements RowMapper<Korpa> {
 
@@ -51,7 +55,9 @@ public class KorpaDAOImpl implements KorpaDAO {
 			String ime = rs.getString(index++);
 			String opis = rs.getString(index++);
 			
-			Trening trening = new Trening(treningId, naziv, trener, cena);
+			
+			
+			Trening trening = treningDAO.findOne(treningId);//new Trening(treningId, naziv, trener, cena);
 
 			
 			TerminTreninga ttreninga = new TerminTreninga(terminId, trening, datum);
@@ -88,7 +94,8 @@ public class KorpaDAOImpl implements KorpaDAO {
 				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
 				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
-				  "WHERE korisnikId = ?";
+				  "WHERE korisnikId = ? " +
+				  "ORDER BY k.id";
 		
 		return jdbcTemplate.query(sql, new KorpaRowMapper(), id);
 	}
@@ -97,7 +104,21 @@ public class KorpaDAOImpl implements KorpaDAO {
 	@Override
 	public Korpa findOne(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql =   "SELECT k.id, k.aktivna, " + 
+				"tt.id, tt.datum, " +
+				"kor.id, kor.korisnickoIme, " +
+				"t.id, t.naziv, t.trener, t.cena, " +
+				"tip.id, tip.ime, tip.opis " +
+				  "from korpa k " +
+				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
+				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
+				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
+				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
+				"WHERE k.id = ? " +
+				"ORDER BY k.id";
+		
+		return jdbcTemplate.queryForObject(sql, new KorpaRowMapper(), id);
 	}
 
 
@@ -105,6 +126,14 @@ public class KorpaDAOImpl implements KorpaDAO {
 	public List<Korpa> findAll() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public int delete(Long id) {
+		// TODO Auto-generated method stub
+		String sql = "DELETE FROM korpa WHERE id = ?";
+		return jdbcTemplate.update(sql, id);
 	}
 
 }

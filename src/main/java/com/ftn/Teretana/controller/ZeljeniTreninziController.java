@@ -1,8 +1,8 @@
 package com.ftn.Teretana.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.IOException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -18,34 +18,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ftn.Teretana.model.Korisnik;
-import com.ftn.Teretana.model.Korpa;
-import com.ftn.Teretana.model.TerminTreninga;
-import com.ftn.Teretana.model.TipTreninga;
 import com.ftn.Teretana.model.Trening;
+import com.ftn.Teretana.model.ZeljeniTreninzi;
 import com.ftn.Teretana.service.KorisnikService;
-import com.ftn.Teretana.service.KorpaService;
-import com.ftn.Teretana.service.TerminService;
-import com.ftn.Teretana.service.TipTreningaService;
 import com.ftn.Teretana.service.TreningService;
+import com.ftn.Teretana.service.ZeljeniTreninziService;
 
 @Controller
-@RequestMapping(value="/Korpa")
-public class KorpaController {
+@RequestMapping(value="/ZeljeniTreninzi")
+public class ZeljeniTreninziController {
 	
 	@Autowired
-	private KorpaService korpaService;
-	
-	@Autowired
-	private TreningService treningService;
-	
-	@Autowired
-	private TerminService terminService;
-	
-	@Autowired
-	private TipTreningaService tipService;
+	private ZeljeniTreninziService zeljeniTreninziService;
 	
 	@Autowired
 	private KorisnikService korisnikService;
+	
+	@Autowired
+	private TreningService treningService;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -57,7 +47,7 @@ public class KorpaController {
 	}
 	
 	@GetMapping
-	public ModelAndView index(
+	public ModelAndView index(@RequestParam(required=false) Long treningId, @RequestParam(required=false) Long korisnikId,
 			HttpSession session, HttpServletResponse response) throws IOException {
 		
 		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
@@ -66,25 +56,27 @@ public class KorpaController {
 			return null;
 		}
 		
-		List<Korpa> korpe = korpaService.findForOne(prijavljeniKorisnik.getId());
-		List<Trening> treninzi = treningService.findAll();
-		List<TipTreninga> tipoviTreninga = tipService.findAll();
+		List<ZeljeniTreninzi> zeljeniTreninzi = zeljeniTreninziService.find(treningId, korisnikId);
+		List<Trening> treninzi = new ArrayList<>();
 		
-		ModelAndView rezultat = new ModelAndView("korpa");
-		rezultat.addObject("korpe", korpe);
-		rezultat.addObject("treninzi", treninzi);
-		rezultat.addObject("tipoviTreninga", tipoviTreninga);
+		for(int i=0; i < zeljeniTreninzi.size(); i++) {
+			treninzi.removeAll(zeljeniTreninzi.get(i).getTrening());
+			treninzi.addAll(zeljeniTreninzi.get(i).getTrening());
+		}
 		
+		ModelAndView rez = new ModelAndView("zeljeniTreninzi");
+		rez.addObject("zeljeniTreninzi", zeljeniTreninzi);
+		rez.addObject("treninzi", treninzi);
 		
-		
-		return rezultat;
+		return rez;
 		
 	}
 	
 	
-	@PostMapping(value="/Create")
-	public void Create(@RequestParam Long terminId, @RequestParam String korisnikId,
-			 HttpSession session, HttpServletResponse response) throws IOException {
+	
+	@PostMapping(value ="/Create")
+	public void create(@RequestParam(name="id", required=false) Long[] id, @RequestParam String korisnickoIme,
+			HttpSession session, HttpServletResponse response) throws IOException {
 		
 		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
 		if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("korisnik")) {
@@ -92,32 +84,22 @@ public class KorpaController {
 			return;
 		}
 		
-		/*Trening trening = treningService.findOne(treningId);
-		if(trening == null) {
-			response.sendRedirect(baseURL);
-			return;
-		}*/
-		
-		TerminTreninga termin = terminService.findOne(terminId);
-		if(termin == null) {
-			response.sendRedirect(baseURL);
-			return;
-		}
-		
-		Korisnik korisnik = korisnikService.findOne(korisnikId);
+		Korisnik korisnik = korisnikService.findOne(korisnickoIme);
 		if(korisnik == null) {
 			response.sendRedirect(baseURL);
 			return;
 		}
 		
-		Korpa korpa = new Korpa(termin, korisnik);
-		korpaService.save(korpa);
+		ZeljeniTreninzi zeljenTrening = new ZeljeniTreninzi(korisnik);
+		zeljenTrening.setTrening(treningService.find(id));
+		zeljeniTreninziService.save(zeljenTrening);
 		
 		response.sendRedirect(baseURL);
 	}
 	
 	@PostMapping(value="/Delete")
-	public void Delete(@RequestParam Long id, HttpSession session, HttpServletResponse response) throws IOException{
+	public void Delete(@RequestParam(name = "id") Long id,
+			HttpSession session, HttpServletResponse response) throws IOException {
 		
 		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
 		if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("korisnik")) {
@@ -125,9 +107,10 @@ public class KorpaController {
 			return;
 		}
 		
-		korpaService.delete(id);
+		zeljeniTreninziService.delete(id);
 		
-		response.sendRedirect(baseURL + "Korpa");
+		response.sendRedirect(baseURL + "ZeljeniTreninzi");
+		
 	}
 
 }

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Zeljeni treninzi</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+	<caption>Lista zelja</caption>
+		<tr>
+			<th>BR.</th>
+			<th>Slika</th>
+			<th>Naziv</th>
+			<th>Cena</th>
+			<th></th>
+		</tr>
+		<tr th:each="itTrening, status: ${treninzi}">
+			<td class="broj" th:text="${status.index + 1}"></td>
+			<td><img th:src="@{${itTrening.slika}}" style="width:150px;height:150px"></td>
+			<td><a th:href="|treninzi/details?id=${itTrening.id}|" th:text="${itTrening.naziv}"></a></td>
+			<td class="broj" th:text="${itTrening.cena}"></td>
+			<td><form method="post" action="ZeljeniTreninzi/Delete">
+					<input th:each="itZT: ${zeljeniTreninzi}" type="hidden" name="id" th:value="${itZT.id}">
+					<input type="submit" value="Ukloni"/>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

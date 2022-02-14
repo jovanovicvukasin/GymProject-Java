@@ -10,6 +10,7 @@ public interface KorpaDAO {
 	public List<Korpa> findAll();
 	public Korpa findOne(Long id);
 	public List<Korpa> findForOne(Long id);
+	public int delete(Long id);
 
 
 }

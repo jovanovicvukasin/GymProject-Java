@@ -1,5 +1,6 @@
 package com.ftn.Teretana.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,17 @@ public class DatabaseTreningService implements TreningService {
 		// TODO Auto-generated method stub
 		treningDAO.save(trening);
 		return trening;
+	}
+
+	@Override
+	public List<Trening> find(Long[] ids) {
+		// TODO Auto-generated method stub
+		List<Trening> rez = new ArrayList<>();
+		for(Long id: ids) {
+			Trening t = treningDAO.findOne(id);
+			rez.add(t);
+		}
+		return rez;
 	}
 
 }

@@ -80,6 +80,24 @@ CREATE TABLE korpa (
 		ON DELETE CASCADE
 );
 
+CREATE TABLE zeljeniTreninzi (
+	id BIGINT AUTO_INCREMENT,
+    korisnikId BIGINT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(korisnikId) REFERENCES korisnici(id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE zeljeniTreninziTrening (
+    zeljeniTreningId BIGINT,
+    treningId BIGINT,
+    PRIMARY KEY(zeljeniTreningId, treningId),
+    FOREIGN KEY(zeljeniTreningId) REFERENCES zeljeniTreninzi(id)
+		ON DELETE CASCADE,
+    FOREIGN KEY(treningId) REFERENCES treninzi(id)
+		ON DELETE CASCADE
+);
+
 
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (1, 'Fitness', 'Funkcionalni trening.');
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (2, 'Cardio', 'Trening za postizanje i odrzavanje kondicije.');
@@ -115,3 +133,7 @@ INSERT INTO termini (id, salaId, treningId, datum) VALUES (6, 2, 3, '2022-02-20 
 INSERT INTO termini (id, salaId, treningId, datum) VALUES (7, 2, 1, '2022-02-20 15:00');
 
 INSERT INTO korpa (id, terminId, korisnikId, aktivna) VALUES (1, 3, 2, true);
+
+INSERT INTO zeljeniTreninzi (id, korisnikId) VALUES (1, 2);
+
+INSERT INTO zeljeniTreninziTrening (zeljeniTreningId, treningId) VALUES (1, 3);

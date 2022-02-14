@@ -40,6 +40,17 @@ public class DatabaseKorpaService implements KorpaService {
 		return korpaDAO.findForOne(id);
 	}
 
+	@Override
+	public Korpa delete(Long id) {
+		// TODO Auto-generated method stub
+		Korpa korpa = findOne(id);
+		if(korpa != null) {
+			korpaDAO.delete(id);
+		}
+		return korpa;
+		
+	}
+
 	
 
 }

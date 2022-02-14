@@ -72,7 +72,7 @@
 			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
 		</table>
 	</form>
-		<table class="forma" th:if="${session.prijavljeniKorisnik == null or session.prijavljeniKorisnik.uloga == 'korisnik'}">
+		<table class="tabela" th:if="${session.prijavljeniKorisnik == null or session.prijavljeniKorisnik.uloga == 'korisnik'}">
 		<caption>Trening</caption>
 		<tr><th>Naziv:</th><td th:text="${trening.naziv}"></td>
 		<tr><th>Trener:</th><td th:text="${trening.trener}"></td>
@@ -91,7 +91,13 @@
 		<tr><th>Nivo treninga:</th><td th:text="${trening.nivoTreninga}"></td>
 		<tr><th>Trajanje:</th><td th:text="${trening.trajanje}"></td>
 		<tr><th>Prosecna ocena:</th><td th:text="${trening.ocena}"></td>
-		<tr>
+		<tr><th>.</th><td>
+		<form method="post" action="ZeljeniTreninzi/Create" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+			<input type="hidden" name="id" th:value="${trening.id}"/>
+			<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
+			<input type="submit" value="Dodaj u listu zelja"/>
+		</form>
+		</td>
 	</table>
 	<table class="tabela">
 		<caption>Termini</caption>
@@ -100,7 +106,6 @@
 				<th>Sala</th>
 				<th>Trening</th>
 				<th>Datum</th>
-				<th>.</th>
 				<th>.</th>
 			</tr>
 			<tr th:each="itTermin, status: ${termini}">
@@ -116,8 +121,7 @@
 						<input type="submit" value="Dodaj u korpu"/>
 					</form>
 					</td>
-					<td th:if="${session.prijavljeniKorisnik != null}"><input type="submit" value="Dodaj u listu zelja"/></td>
-				</tr>
+			</tr>
 		</table>
 </body>
 </html>

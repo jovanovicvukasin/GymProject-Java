@@ -23,12 +23,28 @@ public class Korisnik {
 	public Korisnik() {
 	}
 	
-	
-	
-	
-	
-	
-	
+	public Korisnik(Long id, String korisnickoIme, String email, String ime, String prezime, LocalDate datumRodjenja,
+			String adresa, String brojTelefona, LocalDateTime datumIVremeRegistracije, String uloga, boolean blokiran) {
+		super();
+		this.id = id;
+		this.korisnickoIme = korisnickoIme;
+		this.email = email;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.datumRodjenja = datumRodjenja;
+		this.adresa = adresa;
+		this.brojTelefona = brojTelefona;
+		this.datumIVremeRegistracije = datumIVremeRegistracije;
+		this.uloga = uloga;
+		this.blokiran = blokiran;
+	}
+
+
+
+
+
+
+
 	public Korisnik(Long id, String korisnickoIme) {
 		super();
 		this.id = id;
