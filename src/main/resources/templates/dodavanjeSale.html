@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Dodavanje sala</title>
+</head>
+<body>
+	<table class="tabela1">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li> 
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+		<form method="post" action="Sale/Create">
+		<table class="tabela">
+			<caption>Dodavanje sale</caption>
+			<tr><th>Oznaka sale:</th><td><input type="text" name="oznakaSale"/></td></tr>
+			<tr><th>Kapacitet:</th><td><input type="number" min="0" name="kapacitet" required="required"/></td></tr>
+			<tr><th></th><td><input type="submit" value="Dodaj"/></td></tr>
+		</table>
+		<p class="greska" th:text="${poruka}"></p>
+	</form>
+</body>
+</html>

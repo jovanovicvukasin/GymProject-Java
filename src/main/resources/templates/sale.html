@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Pocetna</title>
+</head>
+<body>
+	<table th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="get">
+		<table class="tabelaPretraga">
+		<caption>Pretraga sala</caption>
+		<tr>
+				<th class="pretraga"> 
+				Oznaka sale:<input type="search"  name="oznakaSale" th:value="${param.oznakaSale}?: null"/><br/>
+				</th>
+				<th class="pretraga"><input  type="submit" value="Pretrazi"/></th>
+			</tr>
+		</table>
+	</form>
+		<table class="tabela">
+		<caption>Sale</caption>
+			<tr>
+				<th>BR.</th>
+				<th>Oznaka sale</th>
+				<th>Kapacitet</th>
+			</tr>
+			<tr th:each="itSala, status: ${sale}">
+					<td class="broj" th:text="${status.index + 1}"></td>
+					<td><a th:href="|Sale/Details?id=${itSala.id}|" th:text="${itSala.oznakaSale}"></a></td>
+					<td th:text="${itSala.kapacitet}"></td>
+				</tr>
+		</table>
+		<ul>
+			<li th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}"><a href="dodavanjeSale.html">dodavanje novih sala</a></li>
+		</ul>
+</body>
+</html>
