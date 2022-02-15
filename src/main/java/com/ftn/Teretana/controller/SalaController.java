@@ -101,6 +101,55 @@ public class SalaController  {
 		return rezultat;
 	}
 	
+	@GetMapping(value="/Details")
+	public ModelAndView details(@RequestParam Long id,
+			HttpSession session, HttpServletResponse response) throws IOException{
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		Sala sala = salaService.findOne(id);
+		ModelAndView rez = new ModelAndView("sala");
+		rez.addObject("sala", sala);
+		
+		return rez;
+		
+	}
+	
+	@PostMapping(value="/Edit")
+	public void edit(@RequestParam Long id, @RequestParam String oznakaSale, @RequestParam Integer kapacitet,
+			HttpSession session, HttpServletResponse response) throws IOException {
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		Sala sala = salaService.findOne(id);
+		if(sala == null) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		if(oznakaSale == null || oznakaSale.equals("") ||
+				kapacitet == 0 || kapacitet.equals(null)) {
+			response.sendRedirect(baseURL + "Sale/Details?id=" + id);
+			return;
+		}
+		
+		//izmena
+		sala.setOznakaSale(oznakaSale);
+		sala.setKapacitet(kapacitet);
+		salaService.edit(sala);
+		
+		response.sendRedirect(baseURL + "Sale");
+		
+	}
+	
 	
 
 }

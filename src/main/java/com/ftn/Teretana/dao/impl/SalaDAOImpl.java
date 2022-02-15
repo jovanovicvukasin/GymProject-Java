@@ -78,7 +78,9 @@ public class SalaDAOImpl implements SalaDAO {
 	@Override
 	public Sala findOne(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT * FROM sale WHERE id = ? " +
+		"ORDER BY id";
+		return jdbcTemplate.queryForObject(sql, new SalaRowMapper(), id);
 	}
 
 	@Override
@@ -98,6 +100,15 @@ public class SalaDAOImpl implements SalaDAO {
 			// TODO: handle exception
 			return null;
 		}
+	}
+
+	@Override
+	public void edit(Sala sala) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE sale SET oznakaSale = ?, kapacitet = ? WHERE id = ?";
+		
+		jdbcTemplate.update(sql, sala.getOznakaSale(), sala.getKapacitet(), sala.getId());
+		
 	}
 
 }

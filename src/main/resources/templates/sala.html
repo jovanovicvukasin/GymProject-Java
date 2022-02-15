@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Sala</title>
+</head>
+<body>
+	<table th:if="${session.prijavljeniKorisnik != null}">
+		<tr>
+			<td>
+			<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+			<ul>
+				<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="post" action="Sale/Edit" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
+		<input type="hidden" name="id" th:value="${sala.id}"/><!-- popuni value atribut vrednošću -->
+		<table class="tabela">
+			<caption>Sala</caption>
+			<tr><th>Oznaka sale:</th><td><input type="text" th:value="${sala.oznakaSale}" name="oznakaSale"/></td></tr>			
+			<tr><th>Kapacitet:</th><td><input type="number" min="0" th:value="${sala.kapacitet}" name="kapacitet" required="required"/></td></tr>
+			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
+		</table>
+	</form>
+</body>
+</html>

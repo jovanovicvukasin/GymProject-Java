@@ -46,5 +46,12 @@ public class DatabaseSalaService implements SalaService {
 		return salaDAO.findOne(oznakaSale);
 	}
 
+	@Override
+	public Sala edit(Sala sala) {
+		// TODO Auto-generated method stub
+		salaDAO.edit(sala);
+		return sala;
+	}
+
 	
 }

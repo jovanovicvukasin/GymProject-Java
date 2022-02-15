@@ -11,6 +11,7 @@ public interface SalaService {
 	Sala findOne(Long id);
 	Sala save(Sala sala);
 	Sala findOne(String oznakaSale);
+	Sala edit(Sala sala);
 
 
 }

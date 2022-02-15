@@ -11,6 +11,7 @@ public interface SalaDAO {
 	public Sala findOne(Long id);
 	public void save(Sala sala);
 	public Sala findOne(String oznakaSale);
+	public void edit(Sala sala);
 
 
 }
