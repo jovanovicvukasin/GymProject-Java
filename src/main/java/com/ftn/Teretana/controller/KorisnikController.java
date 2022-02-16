@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -127,6 +129,132 @@ public class KorisnikController {
 		session.invalidate();
 		
 		response.sendRedirect(baseURL);
+	}
+	
+	@GetMapping(value="/Details")
+	public ModelAndView details(@RequestParam String korisnickoIme, HttpSession session, HttpServletResponse response) throws IOException {
+
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		
+		if (prijavljeniKorisnik == null) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		Korisnik korisnik = korisnikService.findOne(korisnickoIme);
+
+		ModelAndView rezultat = new ModelAndView("korisnik");
+		List<String> uloge = new ArrayList<>();
+		uloge.add("korisnik");
+		uloge.add("administrator");
+		rezultat.addObject("korisnik", korisnik);
+		rezultat.addObject("uloge", uloge);
+		return rezultat;
+	}
+	
+	@PostMapping(value="/Edit")
+	public void edit(@RequestParam String korisnickoIme, @RequestParam String uloga, @RequestParam(required=false) String blokiran,
+			HttpSession session, HttpServletResponse response) throws IOException {
+	
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		Korisnik k = korisnikService.findOne(korisnickoIme);
+		if (k == null) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		if(!prijavljeniKorisnik.equals(k)) {
+			k.setUloga(uloga);
+		}
+		if(k.getUloga().equals("korisnik")) {
+			k.setBlokiran(blokiran != null);
+		}
+	
+		korisnikService.edit(k);
+
+		response.sendRedirect(baseURL + "Korisnici");
+		
+	}
+	
+	@PostMapping(value="/EditProfile")
+	public void editProfile(@RequestParam String korisnickoIme,@RequestParam String lozinka, 
+			@RequestParam String novaLozinka1, @RequestParam String novaLozinka2, @RequestParam String email, @RequestParam String ime,
+			@RequestParam String prezime, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate datumRodjenja,
+			@RequestParam String adresa, @RequestParam String brojTelefona, HttpSession session, HttpServletResponse response) throws IOException {
+	
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if (prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("korisnik")) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		Korisnik k = korisnikService.findOne(korisnickoIme);
+		if (k == null) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		
+		if (email.equals("") || ime.equals("") ||
+				prezime.equals("") || datumRodjenja == null || adresa.equals("") || brojTelefona.equals("")) {
+					response.sendRedirect(baseURL + "Korisnici/Details?korisnickoIme=" + korisnickoIme);
+					return;
+			}
+		if (!novaLozinka1.equals(novaLozinka2)) {
+			response.sendRedirect(baseURL + "Korisnici/Details?korisnickoIme=" + korisnickoIme);
+			return;
+		}
+		
+		if (novaLozinka1.equals(novaLozinka2)) {
+			k.setLozinka(novaLozinka2);
+		}
+		
+		if(novaLozinka1.equals("") || novaLozinka2.equals("")) {
+			k.setLozinka(lozinka);
+		}
+		
+		k.setEmail(email);
+		k.setIme(ime);
+		k.setPrezime(prezime);
+		k.setDatumRodjenja(datumRodjenja);
+		k.setAdresa(adresa);
+		k.setBrojTelefona(brojTelefona);
+		
+		
+	
+		korisnikService.editProfile(k);
+
+		response.sendRedirect(baseURL);
+		
+	}
+	
+	@GetMapping
+	public ModelAndView index(@RequestParam(required=false) String korisnickoIme,
+			@RequestParam(required=false) String uloga,
+			HttpSession session, HttpServletResponse response) throws IOException {
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if(prijavljeniKorisnik == null || !prijavljeniKorisnik.getUloga().equals("administrator")) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		if(korisnickoIme != null && korisnickoIme.trim().equals(""))
+			korisnickoIme = null;
+		
+		
+		if(uloga != null && uloga.trim().equals(""))
+			uloga = null;
+		
+		List<Korisnik> korisnici = korisnikService.find(korisnickoIme, uloga);
+		
+		ModelAndView rezultat = new ModelAndView("korisnici");
+		rezultat.addObject("korisnici", korisnici);
+		
+		return rezultat;
 	}
 
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Korisnici</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a th:href="|Korisnici/Details?korisnickoIme=${session.prijavljeniKorisnik.korisnickoIme}|">Profil</a></li>
+				</ul>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+		<form method="get">
+		<table class="tabelaPretraga">
+		<caption>Pretraga korisnika</caption>
+		<tr>
+				<th class="pretraga"> 
+				Korisnicko ime:<input type="search"  name="korisnickoIme" th:value="${param.korisnickoIme}?: null"/><br/>
+				<th class="pretraga">
+					<select name="uloga">
+						<option value="">Uloga</option>
+						<option value="korisnik">Korisnik</option>
+						<option value="administrator">Administrator</option></select><br/>
+				</th>
+				<th class="pretraga"><input  type="submit" value="Pretrazi"/></th>
+			</tr>
+		</table>
+	</form>
+	<table class="tabela">
+		<caption>Korisnici</caption>
+			<tr>
+				<th>RB.</th>
+				<th>Korisnicko ime</th>
+				<th>Datum registracije</th>
+				<th>Uloga</th>
+			</tr>
+			<tr th:each="itKorisnik, status: ${korisnici}">
+				<td class="broj" th:text="${status.index + 1}"></td>
+				<td><a th:href="|Korisnici/Details?korisnickoIme=${itKorisnik.korisnickoIme}|" th:text="${itKorisnik.korisnickoIme}"></a></td>
+				<td th:text="${#temporals.format(itKorisnik.datumIVremeRegistracije, 'dd.MM.yyyy. HH:mm')}"></td>
+				<td th:text="${itKorisnik.uloga}"></td>
+			</tr>
+	</table>
+</body>
+</html>

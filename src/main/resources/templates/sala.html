@@ -23,7 +23,7 @@
 		<input type="hidden" name="id" th:value="${sala.id}"/><!-- popuni value atribut vrednošću -->
 		<table class="tabela">
 			<caption>Sala</caption>
-			<tr><th>Oznaka sale:</th><td><input type="text" th:value="${sala.oznakaSale}" name="oznakaSale"/></td></tr>			
+			<tr><th>Oznaka sale:</th><td><input readonly="readonly" type="text" th:value="${sala.oznakaSale}" name="oznakaSale"/></td></tr>			
 			<tr><th>Kapacitet:</th><td><input type="number" min="0" th:value="${sala.kapacitet}" name="kapacitet" required="required"/></td></tr>
 			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
 		</table>

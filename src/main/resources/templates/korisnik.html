@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Profil korisnika</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
+					<li><a href="Korisnici">Korisnici</a></li>
+				</ul>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="post" action="Korisnici/EditProfile" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+		<input type="hidden" name="korisnickoIme" th:value="${korisnik.korisnickoIme}"/>
+		<input type="hidden" th:value="${korisnik.lozinka}" name="lozinka"/>
+		<table class="tabela">
+			<caption>Profil</caption>
+			<tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnik.korisnickoIme}" name="korisnickoIme" disabled="disabled"/></td></tr>
+			<tr><th>Lozinka:</th><td><input type="password" th:value="${korisnik.lozinka}" name="lozinka" disabled="disabled"/></td></tr>
+			<tr><th>Nova lozinka(1):</th><td><input type="password" name="novaLozinka1"/></td></tr>
+			<tr><th>Nova lozinka(2):</th><td><input type="password" name="novaLozinka2"/></td></tr>
+			<tr><th>Email:</th><td><input type="text" th:value="${korisnik.email}" name="email"/></td></tr>
+			<tr><th>Ime:</th><td><input type="text" th:value="${korisnik.ime}" name="ime"/></td></tr>
+			<tr><th>Prezime:</th><td><input type="text" th:value="${korisnik.prezime}" name="prezime"/></td></tr>
+			<tr><th>Datum rodjenja:</th><td><input type="date" th:value="${korisnik.datumRodjenja}" name="datumRodjenja"/></td></tr>
+			<tr><th>Adresa:</th><td><input type="text" th:value="${korisnik.adresa}" name="adresa"/></td></tr>
+			<tr><th>Broj telefona:</th><td><input type="text" th:value="${korisnik.brojTelefona}" name="brojTelefona"/></td></tr>
+			<tr><th>Datum registracije:</th><td><input type="text" th:value="${#temporals.format(korisnik.datumIVremeRegistracije, 'dd.MM.yyyy. HH:mm')}" name="datumIVremeRegistracije" disabled="disabled"/></td></tr>
+			<tr><th>Uloga</th><td th:text="${korisnik.uloga}"></td>
+			<tr><th></th><td><input type="submit" value="Izmeni"/></td></tr>
+	</table>
+	</form>
+	<form method="post" action="Korisnici/Edit" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}">
+		<input type="hidden" name="korisnickoIme" th:value="${korisnik.korisnickoIme}"/>
+		<table class="tabela">
+			<caption>Profil korisnika</caption>
+			<tr><th>Korisnicko ime:</th><td><input type="text" th:value="${korisnik.korisnickoIme}" name="korisnickoIme" disabled="disabled"/></td></tr>
+			<tr><th>Email:</th><td><input type="text" th:value="${korisnik.email}" name="email" disabled="disabled"/></td></tr>
+			<tr><th>Ime:</th><td><input type="text" th:value="${korisnik.ime}" name="ime" disabled="disabled"/></td></tr>
+			<tr><th>Prezime:</th><td><input type="text" th:value="${korisnik.prezime}" name="prezime" disabled="disabled"/></td></tr>
+			<tr><th>Datum rodjenja:</th><td><input type="text" th:value="${#temporals.format(korisnik.datumRodjenja, 'dd.MM.yyyy.')}" name="datumRodjenja" disabled="disabled"/></td></tr>
+			<tr><th>Adresa:</th><td><input type="text" th:value="${korisnik.adresa}" name="adresa" disabled="disabled"/></td></tr>
+			<tr><th>Broj telefona:</th><td><input type="text" th:value="${korisnik.brojTelefona}" name="brojTelefona" disabled="disabled"/></td></tr>
+			<tr><th>Datum registracije:</th><td><input type="text" th:value="${#temporals.format(korisnik.datumIVremeRegistracije, 'dd.MM.yyyy. HH:mm')}" name="datumIVremeRegistracije" disabled="disabled"/></td></tr>
+			<tr th:if="${session.prijavljeniKorisnik.id != korisnik.id}">
+				<th>Uloga:</th>
+				<td>
+					<select name="uloga">
+       					<option th:each="u : ${uloge}"
+       					 th:selected="${u == korisnik.uloga}" th:value="${u}" th:text="${u}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr th:if="${#strings.equals(korisnik.uloga, 'korisnik')}"><th>Blokiran:</th><td><input type="checkbox" name="blokiran" th:checked="${korisnik.blokiran}"/></td></tr>
+			<tr th:if="${session.prijavljeniKorisnik.id != korisnik.id}"><th></th><td><input type="submit" value="Izmeni"/></td></tr>
+		</table>
+	</form>
+	<ul>
+		<li th:if="${session.prijavljeniKorisnik != null and korisnik.uloga != 'administrator'}"><a th:href="|Zakazivanje?korisnikId=${korisnik.id}|">Lista zakazanih treninga</a></li>
+	</ul>
+	<ul>
+		<li th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}"><a th:href="|ZeljeniTreninzi?korisnikId=${korisnik.id}|">Lista zelja</a></li>
+	</ul>
+</body>
+</html>

@@ -43,5 +43,25 @@ public class DatabaseKorisnikService implements KorisnikService {
 		return korisnikDAO.findOne(korisnickoIme, lozinka);
 	}
 
+	@Override
+	public Korisnik edit(Korisnik korisnik) {
+		// TODO Auto-generated method stub
+		korisnikDAO.edit(korisnik);
+		return korisnik;
+	}
+
+	@Override
+	public List<Korisnik> find(String korisnickoIme, String uloga) {
+		// TODO Auto-generated method stub
+		return korisnikDAO.find(korisnickoIme, uloga);
+	}
+
+	@Override
+	public Korisnik editProfile(Korisnik korisnik) {
+		// TODO Auto-generated method stub
+		korisnikDAO.editProfile(korisnik);
+		return korisnik;
+	}
+
 	
 }

@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,62 @@ public class KorisnikDAOImpl implements KorisnikDAO{
 			return null;
 		}
 	}
+
+	@Override
+	public void edit(Korisnik korisnik) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE korisnici SET uloga = ?, blokiran = ? WHERE korisnickoIme = ?";
+		jdbcTemplate.update(sql, korisnik.getUloga(), korisnik.isBlokiran(), korisnik.getKorisnickoIme());
+	
+	}
+	
+	@Override
+	public void editProfile(Korisnik korisnik) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE korisnici SET lozinka = ?, email = ?, ime = ?, prezime = ?, datumRodjenja = ?, adresa = ?, brojTelefona = ? WHERE korisnickoIme = ?";
+		jdbcTemplate.update(sql, korisnik.getLozinka(), korisnik.getEmail(), korisnik.getIme(), korisnik.getPrezime(), korisnik.getDatumRodjenja(), korisnik.getAdresa(), korisnik.getBrojTelefona(), korisnik.getKorisnickoIme());
+	}
+
+	@Override
+	public List<Korisnik> find(String korisnickoIme, String uloga) {
+		// TODO Auto-generated method stub
+		
+		ArrayList<Object> lista = new ArrayList<Object>();
+		
+		String sql = "SELECT * FROM korisnici";
+		
+		StringBuffer where = new StringBuffer(" WHERE ");
+		boolean imaArg = false;
+		
+		if(korisnickoIme != null) {
+			korisnickoIme = "%" + korisnickoIme + "%";
+			if(imaArg)
+				where.append(" AND ");
+			where.append("korisnickoIme LIKE ?");
+			imaArg = true;
+			lista.add(korisnickoIme);
+		}
+		
+		if(uloga != null) {
+			if(imaArg)
+				where.append(" AND ");
+			where.append("uloga LIKE ?");
+			imaArg = true;
+			lista.add(uloga);
+		}
+		
+		if(imaArg) {
+			sql=sql + where.toString() + " ORDER BY id";
+		}else {
+			sql=sql + " ORDER BY id";
+			
+		}
+		
+		List<Korisnik> korisnici = jdbcTemplate.query(sql, lista.toArray(), new KorisnikRowMapper());
+		
+		return korisnici;
+	}
+
+	
 
 }
