@@ -1,6 +1,7 @@
 package com.ftn.Teretana.controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,7 +95,7 @@ public class TreningController implements ServletContextAware{
 	public ModelAndView details(@RequestParam Long id) throws IOException {
 
 		Trening trening = treningService.findOne(id);
-		List<TerminTreninga> termini = terminService.findTrening(id);
+		List<TerminTreninga> termini = terminService.findTrening(id, LocalDateTime.now());
 		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
 		List<String> vrstaTreninga = new ArrayList<String>();
 		vrstaTreninga.add("pojedinacni");

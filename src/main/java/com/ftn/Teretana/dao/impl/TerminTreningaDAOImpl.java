@@ -71,18 +71,18 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	}
 
 	@Override
-	public List<TerminTreninga> findTrening(Long id) {
+	public List<TerminTreninga> findTrening(Long id, LocalDateTime datum) {
 		// TODO Auto-generated method stub
 		
 		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
-				"WHERE t.id = ? " +
+				"WHERE t.id = ? and tt.datum > ?" +
 				"ORDER BY tt.id";
 		
 		
 		
-		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
+		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id, datum);
 	}
 
 	@Override
@@ -95,6 +95,14 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 				"WHERE tt.id = ? " +
 				"ORDER BY tt.id";
 		return jdbcTemplate.queryForObject(sql, new TerminTreningaRowMapper(), id);
+	}
+
+	@Override
+	public void save(TerminTreninga terminTreninga) {
+		// TODO Auto-generated method stub
+		String sql = "INSERT INTO termini (salaId, treningId, datum) VALUES (?, ?, ?)";
+		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum());
+		
 	}
 
 }

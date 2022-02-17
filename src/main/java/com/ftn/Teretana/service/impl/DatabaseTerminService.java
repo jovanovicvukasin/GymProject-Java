@@ -1,5 +1,6 @@
 package com.ftn.Teretana.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,6 @@ public class DatabaseTerminService implements TerminService {
 	private TerminTreningaDAO terminTreningaDAO;
 
 	@Override
-	public List<TerminTreninga> findTrening(Long id) {
-		// TODO Auto-generated method stub
-		return terminTreningaDAO.findTrening(id);
-	}
-
-	@Override
 	public List<TerminTreninga> findAll() {
 		// TODO Auto-generated method stub
 		return terminTreningaDAO.findAll();
@@ -31,6 +26,19 @@ public class DatabaseTerminService implements TerminService {
 	public TerminTreninga findOne(Long id) {
 		// TODO Auto-generated method stub
 		return terminTreningaDAO.findOne(id);
+	}
+
+	@Override
+	public TerminTreninga save(TerminTreninga terminTreninga) {
+		// TODO Auto-generated method stub
+		terminTreningaDAO.save(terminTreninga);
+		return terminTreninga;
+	}
+
+	@Override
+	public List<TerminTreninga> findTrening(Long id, LocalDateTime datum) {
+		// TODO Auto-generated method stub
+		return terminTreningaDAO.findTrening(id, datum);
 	}
 
 }

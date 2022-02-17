@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Dodavanje termina</title>
+</head>
+<body>
+	<table class="tabela1">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li> 
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+		<form method="post" action="Termin/Create">
+		<input type="hidden" name="treningId" th:value="${trening.id}"/>
+		<table class="tabela">
+			<caption>Dodavanje termina</caption>
+			<tr><th>za:</th><td th:text="${trening.naziv}"></td></tr>
+			<tr>
+				<th>Sala:</th>
+				<td>
+					<select name="salaId">
+       					<option th:each="s : ${sale}"
+				             th:value="${s.id}" th:text="${s.oznakaSale}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr><th>Datum i vreme:</th><td><input type="datetime-local" name="datum"/></td></tr>
+			<tr><th></th><td><input type="submit" value="Dodaj"/></td></tr>
+		</table>
+		<p class="greska" th:text="${poruka}"></p>
+	</form>
+</body>
+</html>

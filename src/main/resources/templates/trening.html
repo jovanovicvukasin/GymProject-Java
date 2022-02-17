@@ -106,14 +106,14 @@
 				<th>Sala</th>
 				<th>Trening</th>
 				<th>Datum</th>
-				<th>.</th>
+				<th th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">.</th>
 			</tr>
 			<tr th:each="itTermin, status: ${termini}">
 					<td class="broj" th:text="${status.index + 1}"></td>
 					<td th:text="${itTermin.sala.oznakaSale}"></td>
 					<td th:text="${itTermin.trening.naziv}"></td>
-					<td th:text="${itTermin.datum}"></td>
-					<td>
+					<td th:text="${#temporals.format(itTermin.datum, 'dd.MM.yyyy. HH:mm')}"></td>
+					<td th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
 					<form method="post" action="Korpa/Create" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
 						<input type="hidden" name="treningId" th:value="${itTermin.trening.id}"/>
 						<input type="hidden" name="terminId" th:value="${itTermin.id}"/>
@@ -123,5 +123,8 @@
 					</td>
 			</tr>
 		</table>
+		<ul>
+			<li th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'administrator'}"><a th:href="|Termin/Create?id=${trening.id}|">dodavanje termina</a></li>
+		</ul>
 </body>
 </html>
