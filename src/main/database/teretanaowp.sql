@@ -98,6 +98,17 @@ CREATE TABLE zeljeniTreninziTrening (
 		ON DELETE CASCADE
 );
 
+CREATE TABLE kartice (
+	id BIGINT AUTO_INCREMENT,
+    popust INT NOT NULL,
+    brojPoena INT NOT NULL,
+    korisnikId BIGINT NOT NULL,
+    odobrena BOOL DEFAULT false,
+	PRIMARY KEY(id),
+	FOREIGN KEY(korisnikId) REFERENCES korisnici(id)
+		ON DELETE CASCADE
+);
+
 
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (1, 'Fitness', 'Funkcionalni trening.');
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (2, 'Cardio', 'Trening za postizanje i odrzavanje kondicije.');
@@ -137,3 +148,6 @@ INSERT INTO korpa (id, terminId, korisnikId, aktivna) VALUES (1, 3, 2, true);
 INSERT INTO zeljeniTreninzi (id, korisnikId) VALUES (1, 2);
 
 INSERT INTO zeljeniTreninziTrening (zeljeniTreningId, treningId) VALUES (1, 3);
+
+INSERT INTO kartice (popust, brojPoena, korisnikId, odobrena) VALUES (50, 10, 2, true);
+INSERT INTO kartice (popust, brojPoena, korisnikId, odobrena) VALUES (20, 4, 3, false);

@@ -19,11 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ftn.Teretana.model.Korisnik;
 import com.ftn.Teretana.model.Korpa;
+import com.ftn.Teretana.model.LoyaltyKartica;
 import com.ftn.Teretana.model.TerminTreninga;
 import com.ftn.Teretana.model.TipTreninga;
 import com.ftn.Teretana.model.Trening;
 import com.ftn.Teretana.service.KorisnikService;
 import com.ftn.Teretana.service.KorpaService;
+import com.ftn.Teretana.service.LoyaltyKarticaService;
 import com.ftn.Teretana.service.TerminService;
 import com.ftn.Teretana.service.TipTreningaService;
 import com.ftn.Teretana.service.TreningService;
@@ -48,6 +50,9 @@ public class KorpaController {
 	private KorisnikService korisnikService;
 	
 	@Autowired
+	private LoyaltyKarticaService karticaService;
+	
+	@Autowired
 	private ServletContext servletContext;
 	private String baseURL; 
 
@@ -69,13 +74,14 @@ public class KorpaController {
 		List<Korpa> korpe = korpaService.findForOne(prijavljeniKorisnik.getId());
 		List<Trening> treninzi = treningService.findAll();
 		List<TipTreninga> tipoviTreninga = tipService.findAll();
+		LoyaltyKartica kartica = karticaService.findKorisnik(prijavljeniKorisnik.getId());
 		
 		ModelAndView rezultat = new ModelAndView("korpa");
 		rezultat.addObject("korpe", korpe);
 		rezultat.addObject("treninzi", treninzi);
 		rezultat.addObject("tipoviTreninga", tipoviTreninga);
-		
-		
+		rezultat.addObject("kartica", kartica);
+
 		
 		return rezultat;
 		

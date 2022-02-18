@@ -86,7 +86,7 @@ public class TerminTreningaController {
 		}
 		
 		if (datum == null || salaId == null || treningId == null) {
-			//response.sendRedirect(baseURL + "Termin/Create");
+    		response.sendRedirect(baseURL + "treninzi/details?id=" + treningId);
 			return;
 		}
 		

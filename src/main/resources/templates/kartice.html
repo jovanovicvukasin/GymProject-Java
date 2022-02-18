@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Kartice</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+		<caption>Zahtevi</caption>
+		<tr>
+			<th>Redni br.</th>
+			<th>Korisnik</th>
+			<th></th>
+		</tr>
+		<tr th:each="itKartica, status: ${kartice}" th:if="${itKartica.odobrena == false}">
+			<td class="broj" th:text="${status.index + 1}"></td>
+			<td class="text" th:text="${itKartica.korisnik.ime + '&nbsp;' + itKartica.korisnik.prezime}"></td>
+			<td><form method="post" action="Kartice/Edit">
+					<input type="hidden" name="id" th:value="${itKartica.id}">
+					<input type="submit" value="Odobreno"/>
+				</form>
+				<form method="post" action="Kartice/Delete">
+					<input type="hidden" name="id" th:value="${itKartica.id}">
+					<input type="submit" value="Odbijeno"/>
+				</form>
+			</td>
+	</table>
+</body>
+</html>
