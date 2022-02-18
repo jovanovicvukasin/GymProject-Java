@@ -3,7 +3,9 @@ package com.ftn.Teretana.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -84,20 +86,55 @@ public class TerminTreningaController {
 		}
 		
 		if (datum == null || salaId == null || treningId == null) {
-			response.sendRedirect(baseURL + "Termin/Create");
+			//response.sendRedirect(baseURL + "Termin/Create");
 			return;
 		}
 		
 		
 		Trening t = treningService.findOne(treningId);
 		Sala s = salaService.findOne(salaId);
-		
-		
-		
 		TerminTreninga termin = new TerminTreninga(s, t, datum);
-		terminService.save(termin);
+
 		
-		response.sendRedirect(baseURL + "treninzi/details?id=" + treningId);
+		LocalDateTime datumOd = datum;
+		System.out.println(datumOd);
+		System.out.println(termin.getTrening().getTrajanje());
+		LocalDateTime datumDo = datum.plusHours(termin.getTrening().getTrajanje().getHour());
+		System.out.println(datumOd);
+
+		
+		
+		List<TerminTreninga> termini = terminService.findTerminSala(salaId);
+		List<LocalDateTime> terminTreningaa = new ArrayList<>();
+		
+		for(TerminTreninga tt : termini) {
+			//System.out.println(tt.getTrening().getTrajanje());
+			LocalDateTime datum2 = tt.getDatum();
+			//System.out.println(datum2);
+			LocalDateTime datumDo2 = datum2.plusHours(tt.getTrening().getTrajanje().getHour());
+			terminTreningaa.add(datum2);
+			terminTreningaa.add(datumDo2);
+		}
+		
+		List<TerminTreninga> terminiSalaDatum = terminService.findSalaDatum(salaId, datumOd, datumDo, salaId, terminTreningaa.get(1), datumOd, terminTreningaa.get(1), datumDo);
+
+		System.out.println("U ovoliko trening pocinje: " + terminTreningaa.get(0) + "   do ovoliko traje: " + terminTreningaa.get(1));
+
+		
+		boolean ans = terminiSalaDatum.isEmpty();
+
+        if (ans == true) {
+            System.out.println("NE postoje treninzi u datoj sali u tom terminu!");
+    		terminService.save(termin);
+    		response.sendRedirect(baseURL + "treninzi/details?id=" + treningId);
+        }
+        else {
+            System.out.println("Postoje treninzi u datoj sali u tom terminu!");
+            response.sendRedirect(baseURL + "treninzi/details?id=" + treningId);
+			return;
+        }
+		
+				
 		
 	}
 	

@@ -22,6 +22,8 @@ public class Trening {
 	}
 	
 	
+	
+	
 
 	public Trening(Long id, String naziv, String trener, List<TipTreninga> tipTreninga, double cena) {
 		super();
@@ -46,10 +48,11 @@ public class Trening {
 
 
 
-	public Trening(Long id, String naziv) {
+	public Trening(Long id, String naziv, LocalTime trajanje) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
+		this.trajanje = trajanje;
 	}
 
 

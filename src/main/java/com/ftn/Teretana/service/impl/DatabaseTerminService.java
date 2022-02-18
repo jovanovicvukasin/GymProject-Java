@@ -41,4 +41,16 @@ public class DatabaseTerminService implements TerminService {
 		return terminTreningaDAO.findTrening(id, datum);
 	}
 
+	@Override
+	public List<TerminTreninga> findSalaDatum(Long id, LocalDateTime datumOd, LocalDateTime datumDo, Long id1, LocalDateTime datumDo1, LocalDateTime datumOd1, LocalDateTime datumDo2, LocalDateTime datumOd2) {
+		// TODO Auto-generated method stub
+		return terminTreningaDAO.findSalaDatum(id, datumOd, datumDo, id1, datumDo1, datumOd1, datumDo2, datumOd2);
+	}
+
+	@Override
+	public List<TerminTreninga> findTerminSala(Long id) {
+		// TODO Auto-generated method stub
+		return terminTreningaDAO.findTerminSala(id);
+	}
+
 }

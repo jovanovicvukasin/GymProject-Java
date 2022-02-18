@@ -43,6 +43,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 			
 			Long treningId = rs.getLong(index++);
 			String naziv = rs.getString(index++);
+			LocalTime trajanje = rs.getObject(index++, LocalTime.class);
 			/*String trener = rs.getString(index++);
 			String opis = rs.getString(index++);
 			String slika = rs.getString(index++);
@@ -52,7 +53,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 			LocalTime trajanje = rs.getObject(index++, LocalTime.class);
 			Float prosecnaOcena = rs.getFloat(index++);
 			*/
-			Trening trening = new Trening(treningId, naziv);
+			Trening trening = new Trening(treningId, naziv, trajanje);
 			
 
 			
@@ -67,14 +68,18 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
+				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				"ORDER BY tt.id";
+		return jdbcTemplate.query(sql, new TerminTreningaRowMapper());
 	}
 
 	@Override
 	public List<TerminTreninga> findTrening(Long id, LocalDateTime datum) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv " +
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE t.id = ? and tt.datum > ?" +
@@ -89,7 +94,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public TerminTreninga findOne(Long id) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv " +
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.id = ? " +
@@ -103,6 +108,30 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 		String sql = "INSERT INTO termini (salaId, treningId, datum) VALUES (?, ?, ?)";
 		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum());
 		
+	}
+
+	@Override
+	public List<TerminTreninga> findSalaDatum(Long id, LocalDateTime datumOd, LocalDateTime datumDo, Long id1, LocalDateTime datumDo1, LocalDateTime datumOd1, LocalDateTime datumDo2, LocalDateTime datumOd2) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
+				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				"WHERE tt.salaId = ? and tt.datum >= ? and tt.datum <= ? " +
+				"OR tt.salaId = ? and ? >= ? and ? <= ? " +
+				"ORDER BY tt.id";
+		
+		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id, datumOd, datumDo, id1, datumDo1, datumOd1, datumDo2, datumOd2);
+	}
+
+	@Override
+	public List<TerminTreninga> findTerminSala(Long id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
+				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				"WHERE tt.salaId = ? " +
+				"ORDER BY tt.id";
+		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
 	}
 
 }
