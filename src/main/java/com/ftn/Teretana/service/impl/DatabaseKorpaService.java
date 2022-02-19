@@ -51,6 +51,12 @@ public class DatabaseKorpaService implements KorpaService {
 		
 	}
 
+	@Override
+	public List<Korpa> find(Long terminId, Long korisnikId, Double cena, Boolean aktivna) {
+		// TODO Auto-generated method stub
+		return korpaDAO.find(terminId, korisnikId, cena, aktivna);
+	}
+
 	
 
 }

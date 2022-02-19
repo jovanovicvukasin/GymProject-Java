@@ -93,7 +93,7 @@ public class TerminTreningaController {
 		
 		Trening t = treningService.findOne(treningId);
 		Sala s = salaService.findOne(salaId);
-		TerminTreninga termin = new TerminTreninga(s, t, datum);
+		TerminTreninga termin = new TerminTreninga(s, t, datum, s.getKapacitet());
 
 		
 		LocalDateTime datumOd = datum;

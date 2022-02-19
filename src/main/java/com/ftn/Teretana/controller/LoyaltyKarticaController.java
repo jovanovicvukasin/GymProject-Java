@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ftn.Teretana.model.Korisnik;
+import com.ftn.Teretana.model.Korpa;
 import com.ftn.Teretana.model.LoyaltyKartica;
+import com.ftn.Teretana.service.KorpaService;
 import com.ftn.Teretana.service.LoyaltyKarticaService;
 
 @Controller
@@ -26,6 +28,9 @@ public class LoyaltyKarticaController {
 	
 	@Autowired
 	private LoyaltyKarticaService karticaService;
+	
+	@Autowired
+	private KorpaService korpaService;
 	
 	@Autowired
 	private ServletContext servletContext;
@@ -52,6 +57,24 @@ public class LoyaltyKarticaController {
 		
 		return rez;
 		
+	}
+	
+	@GetMapping(value="/Details")
+	public ModelAndView details(@RequestParam Long id, HttpSession session, HttpServletResponse response) throws IOException {
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if (prijavljeniKorisnik == null) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		LoyaltyKartica kartica = karticaService.findOne(id);
+		List<Korpa> korpe = korpaService.findAll();
+		ModelAndView rezultat = new ModelAndView("kartica");
+		rezultat.addObject("kartica", kartica);
+		rezultat.addObject("korpe", korpe);
+		
+		return rezultat;
 	}
 	
 	@PostMapping(value="/Create")

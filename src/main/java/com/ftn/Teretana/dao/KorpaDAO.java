@@ -11,6 +11,8 @@ public interface KorpaDAO {
 	public Korpa findOne(Long id);
 	public List<Korpa> findForOne(Long id);
 	public int delete(Long id);
+	List<Korpa> find(Long terminId, Long korisnikId, Double cena, Boolean aktivna);
+
 
 
 }

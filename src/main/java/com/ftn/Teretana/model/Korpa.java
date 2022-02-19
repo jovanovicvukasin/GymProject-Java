@@ -6,36 +6,48 @@ public class Korpa {
 	//private Trening trening;
 	private TerminTreninga terminTreninga;
 	private Korisnik korisnik;
+	private double cena;
 	private boolean aktivna = true;
 	
-	
-	
-	
+
 	public Korpa() {
 	}
 
-	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
+	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik, double cena, boolean aktivna) {
 		super();
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
+		this.cena = cena;
 		this.aktivna = aktivna;
 	}
 
-	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik) {
+	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik, double cena) {
 		super();
 		
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
+		this.cena = cena;
 	}
 
-	public Korpa(Long id, TerminTreninga terminTreninga, Korisnik korisnik, boolean aktivna) {
+	public Korpa(Long id, TerminTreninga terminTreninga, Korisnik korisnik, double cena, boolean aktivna) {
 		super();
 		this.id = id;
 		this.terminTreninga = terminTreninga;
 		this.korisnik = korisnik;
+		this.cena = cena;
 		this.aktivna = aktivna;
 	}
 	
+	
+	
+	public double getCena() {
+		return cena;
+	}
+
+	public void setCena(double cena) {
+		this.cena = cena;
+	}
+
 	public Long getId() {
 		return id;
 	}

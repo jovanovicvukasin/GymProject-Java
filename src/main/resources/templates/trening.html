@@ -117,6 +117,7 @@
 					<form method="post" action="Korpa/Create" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
 						<input type="hidden" name="treningId" th:value="${itTermin.trening.id}"/>
 						<input type="hidden" name="terminId" th:value="${itTermin.id}"/>
+						<input type="hidden" name="terminKapacitet" th:value="${itTermin.kapacitet}"/>
 						<input type="hidden" name="korisnikId" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
 						<input type="submit" value="Dodaj u korpu"/>
 					</form>

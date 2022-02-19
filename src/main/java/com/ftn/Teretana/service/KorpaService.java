@@ -11,6 +11,7 @@ public interface KorpaService {
 	Korpa findOne(Long id);
 	List<Korpa> findForOne(Long id);
 	Korpa delete(Long id);
+	List<Korpa> find(Long terminId, Long korisnikId, Double cena, Boolean aktivna);
 
 
 }

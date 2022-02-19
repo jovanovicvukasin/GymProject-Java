@@ -39,13 +39,25 @@
 					<li th:each="itTip: ${itKorpa.terminTreninga.trening.tipTreninga}"><a th:text="${itTip.ime + '&nbsp;' + '|' + '&nbsp;' + itTip.opis}"></a></li>
 				</ul>
 			</td>
-			<td class="broj" th:text="${itKorpa.terminTreninga.datum}"></td>
+			<td class="broj" th:text="${#temporals.format(itKorpa.terminTreninga.datum, 'dd.MM.yyyy. HH:mm')}"></td>
 			<td class="broj" th:text="${itKorpa.terminTreninga.trening.cena}"></td>
 			<td><form method="post" action="Korpa/Delete">
 					<input type="hidden" name="id" th:value="${itKorpa.id}">
 					<input type="submit" value="Ukloni"/>
 				</form>
 			</td><tr>
+			<td></td><td></td><td></td><td></td><td></td><td></td><td>
+			<form method="get" action="Kartice/Details" >
+					<input th:if="${kartica.odobrena == true}" type="hidden" name="id" th:value="${kartica.id}"/>
+					<input th:each="itKorpa: ${kk}" type="hidden" name="id" th:value="${itKorpa.id}"/>
+					<input th:each="itKorpa: ${kk}" type="hidden" name="cena" th:value="${itKorpa.cena}"/>
+					<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
+					<input th:if="${kartica != null && kartica.odobrena == true}" type="submit" value="Iskoristi popust"/>
+			</form>
+			<form method="post" action="Zakazivanje/Create">
+						<input type="submit" value="Zavrsi kupovinu"/>
+				</form>
+			</td>
 	</table>
 	<form method="post" action="Kartice/Create">
 		<input th:if="${kartica == null}" type="submit" value="Napravi loyalty karticu">

@@ -8,17 +8,19 @@ public class TerminTreninga {
 	private Sala sala;
 	private Trening trening;
 	private LocalDateTime datum;
+	private int kapacitet;
 	
 	public TerminTreninga() {
 	}
 	
 	
 
-	public TerminTreninga(Long id, Trening trening, LocalDateTime datum) {
+	public TerminTreninga(Long id, Trening trening, LocalDateTime datum, int kapacitet) {
 		super();
 		this.id = id;
 		this.trening = trening;
 		this.datum = datum;
+		this.kapacitet = kapacitet;
 	}
 
 
@@ -31,21 +33,37 @@ public class TerminTreninga {
 
 
 
-	public TerminTreninga(Sala sala, Trening trening, LocalDateTime datum) {
+	public TerminTreninga(Sala sala, Trening trening, LocalDateTime datum, int kapacitet) {
 		super();
 		this.sala = sala;
 		this.trening = trening;
 		this.datum = datum;
+		this.kapacitet = kapacitet;
 	}
 
-	public TerminTreninga(Long id, Sala sala, Trening trening, LocalDateTime datum) {
+	public TerminTreninga(Long id, Sala sala, Trening trening, LocalDateTime datum, int kapacitet) {
 		super();
 		this.id = id;
 		this.sala = sala;
 		this.trening = trening;
 		this.datum = datum;
+		this.kapacitet = kapacitet;
 	}
 	
+	
+	
+	public int getKapacitet() {
+		return kapacitet;
+	}
+
+
+
+	public void setKapacitet(int kapacitet) {
+		this.kapacitet = kapacitet;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

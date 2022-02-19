@@ -34,6 +34,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 			int index = 1;
 			Long terminId = rs.getLong(index++);
 			LocalDateTime datum = rs.getObject(index++, LocalDateTime.class);
+			Integer kapacitetT = rs.getInt(index++);
 			
 			Long salaId = rs.getLong(index++);
 			String oznakaSale = rs.getString(index++);
@@ -57,7 +58,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 			
 
 			
-			TerminTreninga termin = new TerminTreninga(terminId, sala, trening, datum);
+			TerminTreninga termin = new TerminTreninga(terminId, sala, trening, datum, kapacitetT);
 			return termin;
 		}
 
@@ -68,7 +69,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findAll() {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"ORDER BY tt.id";
@@ -79,7 +80,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public List<TerminTreninga> findTrening(Long id, LocalDateTime datum) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE t.id = ? and tt.datum > ?" +
@@ -94,7 +95,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public TerminTreninga findOne(Long id) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.id = ? " +
@@ -105,15 +106,15 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public void save(TerminTreninga terminTreninga) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO termini (salaId, treningId, datum) VALUES (?, ?, ?)";
-		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum());
+		String sql = "INSERT INTO termini (salaId, treningId, datum, kapacitet) VALUES (?, ?, ?, ?)";
+		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum(), terminTreninga.getSala().getKapacitet());
 		
 	}
 
 	@Override
 	public List<TerminTreninga> findSalaDatum(Long id, LocalDateTime datumOd, LocalDateTime datumDo, Long id1, LocalDateTime datumDo1, LocalDateTime datumOd1, LocalDateTime datumDo2, LocalDateTime datumOd2) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.salaId = ? and tt.datum >= ? and tt.datum <= ? " +
@@ -126,7 +127,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findTerminSala(Long id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.salaId = ? " +

@@ -62,7 +62,9 @@ public class KorpaController {
 	}
 	
 	@GetMapping
-	public ModelAndView index(
+	public ModelAndView index(@RequestParam(required = false) Long terminId, @RequestParam(required=false) Long korisnikId,
+			@RequestParam(required=false) Double cena,
+			@RequestParam(required=false) Boolean aktivna,
 			HttpSession session, HttpServletResponse response) throws IOException {
 		
 		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
@@ -72,17 +74,22 @@ public class KorpaController {
 		}
 		
 		List<Korpa> korpe = korpaService.findForOne(prijavljeniKorisnik.getId());
+		List<Korpa> kk = korpaService.find(terminId, korisnikId, cena, aktivna);
 		List<Trening> treninzi = treningService.findAll();
 		List<TipTreninga> tipoviTreninga = tipService.findAll();
 		LoyaltyKartica kartica = karticaService.findKorisnik(prijavljeniKorisnik.getId());
+		
+		List<LoyaltyKartica> kartice = karticaService.findAll();
 		
 		ModelAndView rezultat = new ModelAndView("korpa");
 		rezultat.addObject("korpe", korpe);
 		rezultat.addObject("treninzi", treninzi);
 		rezultat.addObject("tipoviTreninga", tipoviTreninga);
 		rezultat.addObject("kartica", kartica);
+		rezultat.addObject("kartice", kartice);
+		rezultat.addObject("kk", kk);
+	
 
-		
 		return rezultat;
 		
 	}
@@ -98,14 +105,12 @@ public class KorpaController {
 			return;
 		}
 		
-		/*Trening trening = treningService.findOne(treningId);
-		if(trening == null) {
-			response.sendRedirect(baseURL);
-			return;
-		}*/
-		
 		TerminTreninga termin = terminService.findOne(terminId);
 		if(termin == null) {
+			response.sendRedirect(baseURL);
+			return;
+		}
+		if(termin.getKapacitet() == 0) {
 			response.sendRedirect(baseURL);
 			return;
 		}
@@ -116,7 +121,7 @@ public class KorpaController {
 			return;
 		}
 		
-		Korpa korpa = new Korpa(termin, korisnik);
+		Korpa korpa = new Korpa(termin, korisnik, termin.getTrening().getCena());
 		korpaService.save(korpa);
 		
 		response.sendRedirect(baseURL);

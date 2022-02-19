@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -36,10 +37,12 @@ public class KorpaDAOImpl implements KorpaDAO {
 			// TODO Auto-generated method stub
 			int index = 1;
 			Long korpaId = rs.getLong(index++);
+			Double cenaK = rs.getDouble(index++);
 			Boolean aktivna = rs.getBoolean(index++);
 
 			Long terminId = rs.getLong(index++);
 			LocalDateTime datum = rs.getObject(index++, LocalDateTime.class);
+			Integer kapacitet = rs.getInt(index++);
 			
 			
 			Long korisnikId = rs.getLong(index++);
@@ -60,10 +63,10 @@ public class KorpaDAOImpl implements KorpaDAO {
 			Trening trening = treningDAO.findOne(treningId);//new Trening(treningId, naziv, trener, cena);
 
 			
-			TerminTreninga ttreninga = new TerminTreninga(terminId, trening, datum);
+			TerminTreninga ttreninga = new TerminTreninga(terminId, trening, datum, kapacitet);
 
 
-			Korpa korpa = new Korpa(korpaId, ttreninga, korisnik, aktivna);
+			Korpa korpa = new Korpa(korpaId, ttreninga, korisnik, cenaK, aktivna);
 			return korpa;
 		}
 		
@@ -74,17 +77,17 @@ public class KorpaDAOImpl implements KorpaDAO {
 	@Override
 	public int save(Korpa korpa) {
 		// TODO Auto-generated method stub
-		String sql = "INSERT INTO korpa (terminId, korisnikId, aktivna) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO korpa (terminId, korisnikId, cena, aktivna) VALUES (?, ?, ?, ?)";
 
-		return jdbcTemplate.update(sql, korpa.getTerminTreninga().getId(), korpa.getKorisnik().getId(), korpa.isAktivna());
+		return jdbcTemplate.update(sql, korpa.getTerminTreninga().getId(), korpa.getKorisnik().getId(), korpa.getTerminTreninga().getTrening().getCena(), korpa.isAktivna());
 	}
 
 
 	@Override
 	public List<Korpa> findForOne(Long id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT k.id, k.aktivna, " + 
-				"tt.id, tt.datum, " +
+		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
+				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
 				"t.id, t.naziv, t.trener, t.cena, " +
 				"tip.id, tip.ime, tip.opis " +
@@ -97,15 +100,23 @@ public class KorpaDAOImpl implements KorpaDAO {
 				  "WHERE korisnikId = ? " +
 				  "ORDER BY k.id";
 		
-		return jdbcTemplate.query(sql, new KorpaRowMapper(), id);
+		try {
+			return jdbcTemplate.query(sql, new KorpaRowMapper(), id);
+
+			
+		}catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+			 return null;
+		}
+		
 	}
 
 
 	@Override
 	public Korpa findOne(Long id) {
 		// TODO Auto-generated method stub
-		String sql =   "SELECT k.id, k.aktivna, " + 
-				"tt.id, tt.datum, " +
+		String sql =   "SELECT k.id, k.cena, k.aktivna, " + 
+				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
 				"t.id, t.naziv, t.trener, t.cena, " +
 				"tip.id, tip.ime, tip.opis " +
@@ -125,7 +136,19 @@ public class KorpaDAOImpl implements KorpaDAO {
 	@Override
 	public List<Korpa> findAll() {
 		// TODO Auto-generated method stub
-		return null;
+		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
+				"tt.id, tt.datum, tt.kapacitet, " +
+				"kor.id, kor.korisnickoIme, " +
+				"t.id, t.naziv, t.trener, t.cena, " +
+				"tip.id, tip.ime, tip.opis " +
+				  "from korpa k " +
+				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
+				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
+				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
+				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
+				"ORDER BY k.id";
+		return jdbcTemplate.query(sql, new KorpaRowMapper());
 	}
 
 
@@ -134,6 +157,67 @@ public class KorpaDAOImpl implements KorpaDAO {
 		// TODO Auto-generated method stub
 		String sql = "DELETE FROM korpa WHERE id = ?";
 		return jdbcTemplate.update(sql, id);
+	}
+
+
+	@Override
+	public List<Korpa> find(Long terminId, Long korisnikId, Double cena, Boolean aktivna) {
+		// TODO Auto-generated method stub
+		ArrayList<Object> listaArgumenata = new ArrayList<Object>();
+		
+		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
+				"tt.id, tt.datum, tt.kapacitet, " +
+				"kor.id, kor.korisnickoIme, " +
+				"t.id, t.naziv, t.trener, t.cena, " +
+				"tip.id, tip.ime, tip.opis " +
+				  "from korpa k " +
+				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
+				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
+				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
+				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
+				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id ";
+			
+		StringBuffer whereSql = new StringBuffer(" WHERE ");
+		boolean imaArgumenata = false;
+		
+		if(terminId != null) {
+			if(imaArgumenata)
+				whereSql.append(" AND ");
+			whereSql.append("k.terminId = ?");
+			imaArgumenata = true;
+			listaArgumenata.add(terminId);
+		}
+		
+		if(korisnikId != null) {
+			if(imaArgumenata)
+				whereSql.append(" AND ");
+			whereSql.append("k.korisnikId = ?");
+			imaArgumenata = true;
+			listaArgumenata.add(korisnikId);
+		}
+		
+		if(cena != null) {
+			if(imaArgumenata)
+				whereSql.append(" AND ");
+			whereSql.append("k.cena = ?");
+			imaArgumenata = true;
+			listaArgumenata.add(cena);
+		}
+		
+		if(aktivna != null) {
+			if(imaArgumenata)
+				whereSql.append(" AND ");
+			whereSql.append("k.aktivna = ?");
+			imaArgumenata = true;
+			listaArgumenata.add(aktivna);
+		}
+		
+		if(imaArgumenata)
+			sql=sql + whereSql.toString()+" ORDER BY k.id";
+		else
+			sql=sql + " ORDER BY k.id";
+		
+		return jdbcTemplate.query(sql, listaArgumenata.toArray(), new KorpaRowMapper());
 	}
 
 }

@@ -61,6 +61,7 @@ CREATE TABLE termini (
     salaId BIGINT NOT NULL,
     treningId BIGINT NOT NULL,
 	datum DATETIME NOT NULL,
+    kapacitet INT NOT NULL,
 	PRIMARY KEY(id),
     FOREIGN KEY(salaId) REFERENCES sale(id)
 		ON DELETE CASCADE,
@@ -72,6 +73,7 @@ CREATE TABLE korpa (
 	id BIGINT AUTO_INCREMENT,
     terminId BIGINT NOT NULL,
 	korisnikId BIGINT NOT NULL,
+	cena DOUBLE NOT NULL,
     aktivna BOOL DEFAULT true,
 	PRIMARY KEY(id),
 	FOREIGN KEY(terminId) REFERENCES termini(id)
@@ -109,6 +111,27 @@ CREATE TABLE kartice (
 		ON DELETE CASCADE
 );
 
+CREATE TABLE zakazani (
+	id BIGINT AUTO_INCREMENT,
+    ukupnaCena double NOT NULL,
+    datumZakazivanja DATETIME NOT NULL,
+    korisnikId BIGINT NOT NULL,
+	ukupanBroj INT NOT NULL,
+	PRIMARY KEY(id),
+	FOREIGN KEY(korisnikId) REFERENCES korisnici(id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE zakazaniKorpa (
+    zakazaniId BIGINT,
+    korpaId BIGINT,
+    PRIMARY KEY(zakazaniId, korpaId),
+    FOREIGN KEY(zakazaniId) REFERENCES zakazani(id)
+		ON DELETE CASCADE,
+    FOREIGN KEY(korpaId) REFERENCES korpa(id)
+		ON DELETE CASCADE
+);
+
 
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (1, 'Fitness', 'Funkcionalni trening.');
 INSERT INTO tipoviTreninga (id, ime, opis) VALUES (2, 'Cardio', 'Trening za postizanje i odrzavanje kondicije.');
@@ -135,19 +158,18 @@ INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (2, 'Sala 2', 4);
 INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (3, 'Sala 3', 3);
 INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (4, 'Sala 4', 5);
 
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (1, 1, 2, '2022-02-20 08:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (2, 2, 3, '2022-02-20 08:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (3, 3, 1, '2022-02-20 20:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (4, 4, 4, '2022-02-20 20:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (5, 1, 2, '2022-02-20 18:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (6, 2, 3, '2022-02-20 20:00');
-INSERT INTO termini (id, salaId, treningId, datum) VALUES (7, 2, 1, '2022-02-20 15:00');
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (1, 1, 2, '2022-02-20 08:00', 5);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (2, 2, 3, '2022-02-20 08:00', 4);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (3, 3, 1, '2022-02-20 20:00', 3);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (4, 4, 4, '2022-02-20 20:00', 4);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (5, 1, 2, '2022-02-20 18:00', 5);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (6, 2, 3, '2022-02-20 20:00', 4);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (10, 2, 1, '2022-02-27 15:00', 0);
 
-INSERT INTO korpa (id, terminId, korisnikId, aktivna) VALUES (1, 3, 2, true);
+INSERT INTO korpa (id, terminId, korisnikId, cena, aktivna) VALUES (1, 3, 2, 2000.0, true);
 
 INSERT INTO zeljeniTreninzi (id, korisnikId) VALUES (1, 2);
 
 INSERT INTO zeljeniTreninziTrening (zeljeniTreningId, treningId) VALUES (1, 3);
 
 INSERT INTO kartice (popust, brojPoena, korisnikId, odobrena) VALUES (50, 10, 2, true);
-INSERT INTO kartice (popust, brojPoena, korisnikId, odobrena) VALUES (20, 4, 3, false);
