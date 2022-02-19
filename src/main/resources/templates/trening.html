@@ -115,9 +115,9 @@
 					<td th:text="${#temporals.format(itTermin.datum, 'dd.MM.yyyy. HH:mm')}"></td>
 					<td th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
 					<form method="post" action="Korpa/Create" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
-						<input type="hidden" name="treningId" th:value="${itTermin.trening.id}"/>
 						<input type="hidden" name="terminId" th:value="${itTermin.id}"/>
-						<input type="hidden" name="terminKapacitet" th:value="${itTermin.kapacitet}"/>
+						<input type="hidden" name="treningId" th:value="${itTermin.trening.id}"/>
+						<input type="hidden" name="cena" th:value="${itTermin.trening.cena}"/>
 						<input type="hidden" name="korisnikId" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
 						<input type="submit" value="Dodaj u korpu"/>
 					</form>

@@ -1,6 +1,7 @@
 package com.ftn.Teretana.service.impl;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,24 @@ public class DatabaseTerminService implements TerminService {
 	public List<TerminTreninga> findTerminSala(Long id) {
 		// TODO Auto-generated method stub
 		return terminTreningaDAO.findTerminSala(id);
+	}
+
+	@Override
+	public TerminTreninga updateKapacitet(TerminTreninga terminTreninga) {
+		// TODO Auto-generated method stub
+		terminTreningaDAO.updateKapacitet(terminTreninga);
+		return terminTreninga;
+	}
+
+	@Override
+	public List<TerminTreninga> find(Long[] ids) {
+		// TODO Auto-generated method stub
+		List<TerminTreninga> rezultat = new ArrayList<>();
+		for(Long id: ids) {
+			TerminTreninga tt = terminTreningaDAO.findOne(id);
+			rezultat.add(tt);
+		}
+		return rezultat;
 	}
 
 }

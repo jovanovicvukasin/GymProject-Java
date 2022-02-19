@@ -13,7 +13,8 @@ public interface TerminTreningaDAO {
 	public void save(TerminTreninga terminTreninga);
 	public List<TerminTreninga> findSalaDatum(Long id, LocalDateTime datumOd, LocalDateTime datumDo, Long id1, LocalDateTime datumDo1, LocalDateTime datumOd1, LocalDateTime datumDo2, LocalDateTime datumOd2);
 	public List<TerminTreninga> findTerminSala(Long id);
-
+	public int updateKapacitet(TerminTreninga terminTreninga);
+ 
 
 
 }

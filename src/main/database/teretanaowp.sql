@@ -158,13 +158,16 @@ INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (2, 'Sala 2', 4);
 INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (3, 'Sala 3', 3);
 INSERT INTO sale (id, oznakaSale, kapacitet) VALUES (4, 'Sala 4', 5);
 
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (1, 1, 2, '2022-02-20 08:00', 5);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (2, 2, 3, '2022-02-20 08:00', 4);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (3, 3, 1, '2022-02-20 20:00', 3);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (4, 4, 4, '2022-02-20 20:00', 4);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (5, 1, 2, '2022-02-20 18:00', 5);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (6, 2, 3, '2022-02-20 20:00', 4);
-INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (10, 2, 1, '2022-02-27 15:00', 0);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (1, 1, 2, '2022-02-22 08:00', 5);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (2, 2, 3, '2022-02-22 08:00', 4);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (3, 3, 1, '2022-02-22 20:00', 3);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (4, 4, 4, '2022-02-22 20:00', 5);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (5, 1, 2, '2022-02-22 18:00', 5);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (6, 2, 3, '2022-02-22 20:00', 4);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (7, 2, 1, '2022-02-27 15:00', 0);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (8, 3, 4, '2022-02-22 15:00', 3);
+INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (9, 4, 2, '2022-02-22 08:00', 5);
+
 
 INSERT INTO korpa (id, terminId, korisnikId, cena, aktivna) VALUES (1, 3, 2, 2000.0, true);
 

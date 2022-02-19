@@ -24,8 +24,9 @@
 	</table>
 	<form method="post" action="Zakazivanje/Create">
 	<input type="hidden" th:value="${kartica.id}" name="karticaId">
-	<input th:each="itKorpa: ${korpe}" th:if="${itKorpa.aktivna == true && itKorpa.korisnik == session.prijavljeniKorisnik}" type="hidden" name="id" th:value="${itKorpa.id}"/>
-	<input th:each="itKorpa: ${korpe}" th:if="${itKorpa.aktivna == true && itKorpa.korisnik == session.prijavljeniKorisnik}" type="hidden" name="cena" th:value="${itKorpa.termin.trening.cena}"/>
+	<input th:each="itKorpa: ${korpe}" type="hidden" name="id" th:value="${itKorpa.id}"/>
+	<input th:each="itKorpa: ${korpe}" type="hidden" name="cena" th:value="${itKorpa.cena}"/>
+	<input th:each="itKorpa: ${korpe}" type="hidden" name="terminId" th:value="${itKorpa.terminTreninga.id}"/>
 	<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
 		<table class="forma">
 			<caption>Loyalty kartica</caption>

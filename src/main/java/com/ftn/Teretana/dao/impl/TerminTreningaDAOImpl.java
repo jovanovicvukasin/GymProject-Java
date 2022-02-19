@@ -45,16 +45,16 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 			Long treningId = rs.getLong(index++);
 			String naziv = rs.getString(index++);
 			LocalTime trajanje = rs.getObject(index++, LocalTime.class);
+			Double cena = rs.getDouble(index++);
 			/*String trener = rs.getString(index++);
 			String opis = rs.getString(index++);
 			String slika = rs.getString(index++);
-			Double cena = rs.getDouble(index++);
 			String vrstaTreninga = rs.getString(index++);
 			String nivoTreninga = rs.getString(index++);
 			LocalTime trajanje = rs.getObject(index++, LocalTime.class);
 			Float prosecnaOcena = rs.getFloat(index++);
 			*/
-			Trening trening = new Trening(treningId, naziv, trajanje);
+			Trening trening = new Trening(treningId, naziv, trajanje, cena);
 			
 
 			
@@ -69,7 +69,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findAll() {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje, t.cena " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"ORDER BY tt.id";
@@ -80,7 +80,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public List<TerminTreninga> findTrening(Long id, LocalDateTime datum) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje, t.cena " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE t.id = ? and tt.datum > ?" +
@@ -95,7 +95,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public TerminTreninga findOne(Long id) {
 		// TODO Auto-generated method stub
 		
-		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje, t.cena " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.id = ? " +
@@ -114,7 +114,7 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findSalaDatum(Long id, LocalDateTime datumOd, LocalDateTime datumDo, Long id1, LocalDateTime datumDo1, LocalDateTime datumOd1, LocalDateTime datumDo2, LocalDateTime datumOd2) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje, t.cena " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.salaId = ? and tt.datum >= ? and tt.datum <= ? " +
@@ -127,12 +127,20 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	@Override
 	public List<TerminTreninga> findTerminSala(Long id) {
 		// TODO Auto-generated method stub
-		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje " +
+		String sql = "SELECT tt.id, tt.datum, tt.kapacitet, s.id, s.oznakaSale, s.kapacitet, t.id, t.naziv, t.trajanje, t.cena " +
 				"FROM termini tt LEFT JOIN sale s ON tt.salaId = s.id " +
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.salaId = ? " +
 				"ORDER BY tt.id";
 		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
+	}
+
+	@Override
+	public int updateKapacitet(TerminTreninga terminTreninga) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE termini SET kapacitet = ?  WHERE id = ?";
+		return jdbcTemplate.update(sql, terminTreninga.getKapacitet(), terminTreninga.getId());
+	
 	}
 
 }

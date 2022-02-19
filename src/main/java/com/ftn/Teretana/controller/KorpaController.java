@@ -43,6 +43,8 @@ public class KorpaController {
 	@Autowired
 	private TerminService terminService;
 	
+	
+	
 	@Autowired
 	private TipTreningaService tipService;
 	
@@ -78,8 +80,19 @@ public class KorpaController {
 		List<Trening> treninzi = treningService.findAll();
 		List<TipTreninga> tipoviTreninga = tipService.findAll();
 		LoyaltyKartica kartica = karticaService.findKorisnik(prijavljeniKorisnik.getId());
-		
 		List<LoyaltyKartica> kartice = karticaService.findAll();
+		List<Korisnik> korisnici = new ArrayList<>();
+		List<Korisnik> korisniciKartica = new ArrayList<>();
+
+		
+		for(int i =0; i<kartice.size(); i++) {
+			korisnici.add(kartice.get(i).getKorisnik());
+		}
+		
+		for(int i=0; i<kartice.size(); i++) {
+			if(kartice.get(i).isOdobrena() == true)
+				korisniciKartica.add(kartice.get(i).getKorisnik());
+		}
 		
 		ModelAndView rezultat = new ModelAndView("korpa");
 		rezultat.addObject("korpe", korpe);
@@ -88,6 +101,9 @@ public class KorpaController {
 		rezultat.addObject("kartica", kartica);
 		rezultat.addObject("kartice", kartice);
 		rezultat.addObject("kk", kk);
+		rezultat.addObject("korisniciKartica", korisniciKartica);
+		rezultat.addObject("korisnici", korisnici);
+
 	
 
 		return rezultat;
@@ -96,7 +112,7 @@ public class KorpaController {
 	
 	
 	@PostMapping(value="/Create")
-	public void Create(@RequestParam Long terminId, @RequestParam String korisnikId,
+	public void Create(@RequestParam Long terminId, @RequestParam String korisnikId, @RequestParam Double cena, 
 			 HttpSession session, HttpServletResponse response) throws IOException {
 		
 		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
@@ -121,7 +137,7 @@ public class KorpaController {
 			return;
 		}
 		
-		Korpa korpa = new Korpa(termin, korisnik, termin.getTrening().getCena());
+		Korpa korpa = new Korpa(termin, korisnik, termin.getTrening().getCena(), true);
 		korpaService.save(korpa);
 		
 		response.sendRedirect(baseURL);

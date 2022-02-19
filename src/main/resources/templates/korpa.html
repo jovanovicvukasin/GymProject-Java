@@ -30,7 +30,7 @@
 			<th>Cena</th>
 			<th></th>
 		</tr>
-		<tr th:each="itKorpa, status: ${korpe}">
+		<tr th:each="itKorpa, status: ${korpe}" th:if="${itKorpa.aktivna == true}">
 			<td class="broj" th:text="${status.index + 1}"> </td>
 			<td th:text="${itKorpa.terminTreninga.trening.naziv}"></td>
 			<td th:text="${itKorpa.terminTreninga.trening.trener}"></td>
@@ -47,20 +47,28 @@
 				</form>
 			</td><tr>
 			<td></td><td></td><td></td><td></td><td></td><td></td><td>
-			<form method="get" action="Kartice/Details" >
-					<input th:if="${kartica.odobrena == true}" type="hidden" name="id" th:value="${kartica.id}"/>
-					<input th:each="itKorpa: ${kk}" type="hidden" name="id" th:value="${itKorpa.id}"/>
+			<form method="get" action="Kartice/Details">
+					<input th:each="itKartica: ${kartice}" th:if="${itKartica.odobrena == true && itKartica.korisnik.id == session.prijavljeniKorisnik.id}" type="hidden" name="id" th:value="${itKartica.id}"/>
+					<input th:each="itKorpa: ${kk}" type="hidden" name="idKorpa" th:value="${itKorpa.id}"/>
 					<input th:each="itKorpa: ${kk}" type="hidden" name="cena" th:value="${itKorpa.cena}"/>
 					<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
 					<input th:if="${kartica != null && kartica.odobrena == true}" type="submit" value="Iskoristi popust"/>
 			</form>
 			<form method="post" action="Zakazivanje/Create">
-						<input type="submit" value="Zavrsi kupovinu"/>
+					<input th:each="itKorpa: ${kk}" th:if="${itKorpa.aktivna == true && itKorpa.korisnik.id == session.prijavljeniKorisnik.id}" type="hidden" name="id" th:value="${itKorpa.id}"/>
+					<input th:each="itKorpa: ${kk}" th:if="${itKorpa.aktivna == true && itKorpa.korisnik.id == session.prijavljeniKorisnik.id}" type="hidden" name="cena" th:value="${itKorpa.cena}"/>
+					<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/><br>
+					<input th:each="itKorpa: ${kk}" type="hidden" name="terminId" th:value="${itKorpa.terminTreninga.id}"/>
+					<input th:if="${korisniciKupljene != null && #lists.contains(korisniciKupljene, session.prijavljeniKorisnik)}" type="submit" value="Zavrsi kupovinu"/>
+				
+						<input type="submit" value="Zakazi"/>
 				</form>
 			</td>
 	</table>
 	<form method="post" action="Kartice/Create">
 		<input th:if="${kartica == null}" type="submit" value="Napravi loyalty karticu">
 	</form>
+	<p class="greska" th:text="${poruka}"></p>
+	
 	</body>
 </html>

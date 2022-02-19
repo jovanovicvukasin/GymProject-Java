@@ -48,11 +48,12 @@ public class Trening {
 
 
 
-	public Trening(Long id, String naziv, LocalTime trajanje) {
+	public Trening(Long id, String naziv, LocalTime trajanje, Double cena) {
 		super();
 		this.id = id;
 		this.naziv = naziv;
 		this.trajanje = trajanje;
+		this.cena = cena;
 	}
 
 

@@ -54,12 +54,6 @@ public class KorpaDAOImpl implements KorpaDAO {
 			String trener = rs.getString(index++);
 			Double cena = rs.getDouble(index++);
 			
-			Long tipId = rs.getLong(index++);
-			String ime = rs.getString(index++);
-			String opis = rs.getString(index++);
-			
-			
-			
 			Trening trening = treningDAO.findOne(treningId);//new Trening(treningId, naziv, trener, cena);
 
 			
@@ -89,16 +83,15 @@ public class KorpaDAOImpl implements KorpaDAO {
 		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
 				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
-				"t.id, t.naziv, t.trener, t.cena, " +
-				"tip.id, tip.ime, tip.opis " +
+				"t.id, t.naziv, t.trener, t.cena " +
 				  "from korpa k " +
 				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
 				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
 				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
-				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
-				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
+		
 				  "WHERE korisnikId = ? " +
 				  "ORDER BY k.id";
+
 		
 		try {
 			return jdbcTemplate.query(sql, new KorpaRowMapper(), id);
@@ -118,14 +111,11 @@ public class KorpaDAOImpl implements KorpaDAO {
 		String sql =   "SELECT k.id, k.cena, k.aktivna, " + 
 				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
-				"t.id, t.naziv, t.trener, t.cena, " +
-				"tip.id, tip.ime, tip.opis " +
+				"t.id, t.naziv, t.trener, t.cena " +
 				  "from korpa k " +
 				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
 				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
 				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
-				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
-				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
 				"WHERE k.id = ? " +
 				"ORDER BY k.id";
 		
@@ -139,14 +129,12 @@ public class KorpaDAOImpl implements KorpaDAO {
 		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
 				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
-				"t.id, t.naziv, t.trener, t.cena, " +
-				"tip.id, tip.ime, tip.opis " +
+				"t.id, t.naziv, t.trener, t.cena " +
 				  "from korpa k " +
 				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
 				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
 				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
-				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
-				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id " +
+			
 				"ORDER BY k.id";
 		return jdbcTemplate.query(sql, new KorpaRowMapper());
 	}
@@ -168,14 +156,12 @@ public class KorpaDAOImpl implements KorpaDAO {
 		String sql = "SELECT k.id, k.cena, k.aktivna, " + 
 				"tt.id, tt.datum, tt.kapacitet, " +
 				"kor.id, kor.korisnickoIme, " +
-				"t.id, t.naziv, t.trener, t.cena, " +
-				"tip.id, tip.ime, tip.opis " +
+				"t.id, t.naziv, t.trener, t.cena " +
 				  "from korpa k " +
 				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
 				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
-				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
-				  "LEFT JOIN treningTipTreninga ttt ON ttt.treningId = t.id " +
-				  "LEFT JOIN tipoviTreninga tip ON ttt.tipTreningaId = tip.id ";
+				  "LEFT JOIN treninzi t ON tt.treningId = t.id";
+				
 			
 		StringBuffer whereSql = new StringBuffer(" WHERE ");
 		boolean imaArgumenata = false;
@@ -218,6 +204,41 @@ public class KorpaDAOImpl implements KorpaDAO {
 			sql=sql + " ORDER BY k.id";
 		
 		return jdbcTemplate.query(sql, listaArgumenata.toArray(), new KorpaRowMapper());
+	}
+	
+	@Override
+	public List<Korpa> findForOne(boolean aktivna, Long id) {
+		// TODO Auto-generated method stub
+		String sql = "SELECT k.id, k.cena, k.aktivna, " +
+				"tt.id, tt.datum, tt.kapacitet,  " +
+				"kor.id, kor.korisnickoIme, " +
+				"t.id, t.naziv, t.trener, t.cena " +
+				  "from korpa k " +
+				  "LEFT JOIN termini tt ON k.terminId = tt.id " +
+				  "LEFT JOIN korisnici kor ON k.korisnikId = kor.id " +
+				  "LEFT JOIN treninzi t ON tt.treningId = t.id " +
+		
+				  "WHERE k.aktivna = ? and k.terminId = ?";
+
+		
+		try {
+			return jdbcTemplate.query(sql, new KorpaRowMapper(), aktivna, id);
+
+			
+		}catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+			 return null;
+		}
+		
+	}
+
+
+	@Override
+	public int update(Korpa korpa) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE korpa SET terminId = ?, korisnikId = ?, cena = ?, aktivna = ? WHERE id  = ?";
+		return jdbcTemplate.update(sql, korpa.getTerminTreninga().getId(), korpa.getKorisnik().getId(), korpa.getCena(), korpa.isAktivna(), korpa.getId());
+	
 	}
 
 }
