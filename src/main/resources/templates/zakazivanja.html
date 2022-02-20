@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Kupovine</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+	<caption>Sva zakazivanja treninga</caption>
+		<tr>
+			<th>RB.</th>
+			<th>Ukupna cena</th>
+			<th>Datum i vreme kupovine</th>
+			<th th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">.</th>
+		</tr>
+		<tr th:each="itZ, status: ${#lists.sort(zak, sortiranje)}">
+			<td class="broj" th:text="${status.index + 1}"></td>
+			<td class="broj" th:text="${itZ.ukupnaCena}"></td>
+			<td><a th:href="|Zakazivanje/Details?id=${itZ.id}|" th:text="${#temporals.format(itZ.datumZakazivanja, 'dd.MM.yyyy. HH:mm')}"></a></td>
+			<td><form method="post" action="Zakazivanje/Otkazivanje" th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}">
+					<input type="submit" value="Otkazi"/>
+				</form>
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

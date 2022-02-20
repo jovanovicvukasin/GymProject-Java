@@ -1,8 +1,12 @@
 package com.ftn.Teretana.controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +60,55 @@ public class ZakazivanjeController {
 	@PostConstruct
 	public void init() {	
 		baseURL = servletContext.getContextPath() + "/";			
+	}
+	
+	@GetMapping
+	public ModelAndView index(@RequestParam(required=false) Long korpaId, @RequestParam(required=false) Double ukupnaCena,
+			@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE)LocalDate datumZakazivanja,
+			@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.TIME) LocalTime vremeZakazivanja,
+			@RequestParam(required=false) Long korisnikId, @RequestParam(required=false) Integer ukupanBroj,
+			HttpSession session, HttpServletResponse response) throws IOException{
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if (prijavljeniKorisnik == null) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		LocalDateTime datumVremeZakazivanja = null;
+		if(datumZakazivanja != null || vremeZakazivanja != null)
+			datumVremeZakazivanja = LocalDateTime.of(datumZakazivanja, vremeZakazivanja);
+		
+		List<Zakazivanje> zakazivanja = zakazivanjeService.find(korpaId, ukupnaCena, datumVremeZakazivanja, korisnikId, ukupanBroj);
+		List<Korpa> korpe = korpaService.findAll();
+		
+		ModelAndView rezultat = new ModelAndView("zakazivanja");
+		rezultat.addObject("zak", zakazivanja);
+		rezultat.addObject("sortiranje", Comparator.comparing((	Zakazivanje::getDatumZakazivanja), (s1, s2) -> {return s2.compareTo(s1);}));
+		rezultat.addObject("korpe", korpe);
+		
+		return rezultat;
+		
+	}
+	
+	@GetMapping(value="/Details")
+	public ModelAndView details(@RequestParam Long id, HttpSession session, HttpServletResponse response) throws IOException {
+		
+		Korisnik prijavljeniKorisnik = (Korisnik) session.getAttribute(KorisnikController.KORISNIK_KEY);
+		if (prijavljeniKorisnik == null) {
+			response.sendRedirect(baseURL);
+			return null;
+		}
+		
+		Zakazivanje zakazivanje = zakazivanjeService.findOne(id);
+	
+		
+		
+		ModelAndView rezultat = new ModelAndView("zakazivanje");
+		rezultat.addObject("zak", zakazivanje);
+		
+		return rezultat;
+		
 	}
 	
 	@PostMapping(value="/Create")

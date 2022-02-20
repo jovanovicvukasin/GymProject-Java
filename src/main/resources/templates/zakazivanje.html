@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Kupovina</title>
+</head>
+<body>
+	<table th:if="${session.prijavljeniKorisnik != null}">
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+	<caption>Zakazan</caption>
+		<tr><th>Ukupna cena</th><td th:text="${zak.ukupnaCena}"></td>
+		<tr><th>Datum zakazivanja</th><td th:text="${#temporals.format(zak.datumZakazivanja, 'dd.MM.yyyy. HH:mm')}"></td>
+		<tr><th>Ukupan broj zakazanih treninga</th><td th:text="${zak.ukupanBroj}"></td>
+	</table>
+</body>
+</html>

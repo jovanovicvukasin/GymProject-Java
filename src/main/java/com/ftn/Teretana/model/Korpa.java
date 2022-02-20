@@ -12,6 +12,16 @@ public class Korpa {
 
 	public Korpa() {
 	}
+	
+	
+
+	public Korpa(Long id, double cena) {
+		super();
+		this.id = id;
+		this.cena = cena;
+	}
+
+
 
 	public Korpa(TerminTreninga terminTreninga, Korisnik korisnik, double cena, boolean aktivna) {
 		super();
