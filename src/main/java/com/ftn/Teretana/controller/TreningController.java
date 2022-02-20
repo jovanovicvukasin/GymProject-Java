@@ -22,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ftn.Teretana.model.Komentar;
 import com.ftn.Teretana.model.Korisnik;
+import com.ftn.Teretana.model.Korpa;
 import com.ftn.Teretana.model.TerminTreninga;
 import com.ftn.Teretana.model.TipTreninga;
 import com.ftn.Teretana.model.Trening;
+import com.ftn.Teretana.service.KomentarService;
+import com.ftn.Teretana.service.KorpaService;
 import com.ftn.Teretana.service.TerminService;
 import com.ftn.Teretana.service.TipTreningaService;
 import com.ftn.Teretana.service.TreningService;
@@ -43,6 +47,9 @@ public class TreningController implements ServletContextAware{
 	@Autowired
 	private TipTreningaService tipTreningaService;
 	
+	@Autowired
+	private KomentarService komentarService;
+		
 	@Autowired
 	private ServletContext servletContext;
 	private String baseURL;
@@ -97,6 +104,8 @@ public class TreningController implements ServletContextAware{
 		Trening trening = treningService.findOne(id);
 		List<TerminTreninga> termini = terminService.findTrening(id, LocalDateTime.now());
 		List<TipTreninga> tipoviTreninga = tipTreningaService.findAll();
+		List<Komentar> komentari = komentarService.findAll();
+		
 		List<String> vrstaTreninga = new ArrayList<String>();
 		vrstaTreninga.add("pojedinacni");
 		vrstaTreninga.add("grupni");
@@ -109,10 +118,9 @@ public class TreningController implements ServletContextAware{
 		rezultat.addObject("trening", trening); // naziv template-a
 		rezultat.addObject("tipoviTreninga", tipoviTreninga);
 		rezultat.addObject("termini", termini);
+		rezultat.addObject("komentari", komentari);
 		rezultat.addObject("vrsteTreninga", vrstaTreninga);
 		rezultat.addObject("nivoiTreninga", nivoTreninga);
-
-
 
 		
 		return rezultat;// prosleđivanje zahteva zajedno sa podacima template-u

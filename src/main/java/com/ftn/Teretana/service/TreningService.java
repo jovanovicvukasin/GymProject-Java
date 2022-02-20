@@ -12,6 +12,8 @@ public interface TreningService {
 	Trening edit(Trening trening);
 	Trening save(Trening trening);
 	List<Trening> find(Long[] ids);
+	Trening update(Trening trening);
+
 
 
 

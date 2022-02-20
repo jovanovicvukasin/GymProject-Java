@@ -45,9 +45,6 @@ public class Trening {
 	}
 
 
-
-
-
 	public Trening(Long id, String naziv, LocalTime trajanje, Double cena) {
 		super();
 		this.id = id;
@@ -57,6 +54,12 @@ public class Trening {
 	}
 
 
+	public Trening(Long id, String naziv, float ocena) {
+		super();
+		this.id = id;
+		this.naziv = naziv;
+		this.ocena = ocena;
+	}
 
 
 

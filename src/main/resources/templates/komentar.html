@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/StiloviForma.css}"/>
+	<base th:href="@{/}">
+	<title>Komentar</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a href="Komentari">Komentari</a></li>
+				</ul>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<form method="post" action="Komentari/Edit">
+		<input type="hidden" name="id" th:value="${komentar.id}"/>
+		<table class="forma">
+			<caption>Komentar</caption>
+			<tr><th>Tekst komentara:</th><td><input type="text" th:value="${komentar.tekst}" name="tekstKomentara" disabled="disabled"/></td></tr>
+			<tr><th>Ocena:</th><td><input type="number" th:value="${komentar.ocena}" name="ocena" disabled="disabled"/></td></tr>
+			<tr><th>Datum:</th><td><input type="date" th:value="${komentar.datum}" name="datum" disabled="disabled"/></td></tr>
+			<tr><th>Korisnik:</th><td><input type="text" th:value="${komentar.korisnik.ime + '&nbsp;' + komentar.korisnik.prezime}" name="korisnik" disabled="disabled"/></td></tr>
+			<tr><th>Trening:</th><td><input type="text" th:value="${komentar.trening.naziv}" name="trening" disabled="disabled"/></td></tr>
+			<tr>
+				<th>Status:</th>
+				<td>
+					<select name="status">
+       					<option th:each="status : ${statusiKomentara}"
+				            th:selected="${status == komentar.statusKomentara}" th:value="${status}" th:text="${status}">
+				    	</option>
+   					</select>	
+				</td>
+			</tr>
+			<tr><th></th><td><input type="submit" value="Izmeni status"/></td></tr>
+		</table>
+	</form>
+</body>
+</html>

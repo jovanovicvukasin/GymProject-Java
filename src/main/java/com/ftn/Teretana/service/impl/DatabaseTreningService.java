@@ -60,4 +60,11 @@ public class DatabaseTreningService implements TreningService {
 		return rez;
 	}
 
+	@Override
+	public Trening update(Trening trening) {
+		// TODO Auto-generated method stub
+		treningDAO.update(trening);
+		return trening;
+	}
+
 }

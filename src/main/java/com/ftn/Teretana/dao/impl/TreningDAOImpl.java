@@ -342,6 +342,14 @@ public class TreningDAOImpl implements TreningDAO {
 		
 		return uspeh?1:0;
 	}
+
+	@Override
+	public int update(Trening trening) {
+		// TODO Auto-generated method stub
+		String sql = "UPDATE treninzi SET prosecnaOcena = ?  WHERE id = ?";
+		return jdbcTemlate.update(sql, trening.getOcena(), trening.getId());
+	
+	}
 	
 	
 	

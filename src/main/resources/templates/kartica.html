@@ -31,7 +31,7 @@
 		<table class="forma">
 			<caption>Loyalty kartica</caption>
 			<tr><th>Popust na kartici:</th><td><input type="text" th:value="${kartica.popust + '%'}" name="popust" disabled="disabled"/></td></tr>
-			<tr><th>Broj bodova:</th><td><input type="number" name="brojPoena" th:max="${kartica.brojPoena}"/></td></tr>
+			<tr><th>Broj bodova:</th><td><input type="number" name="brojPoena" th:if="${kartica.brojPoena} < 5" th:max="${kartica.brojPoena}"/><input type="number" name="brojPoena" th:if="${kartica.brojPoena} >= 5" th:max="${5}"/></td></tr>
 			<tr><th></th><td><input type="submit" value="Zavrsi kupovinu"/></td></tr>
 		</table>
 	</form>

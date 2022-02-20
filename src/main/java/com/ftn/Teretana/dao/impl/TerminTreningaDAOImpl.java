@@ -107,7 +107,9 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 	public void save(TerminTreninga terminTreninga) {
 		// TODO Auto-generated method stub
 		String sql = "INSERT INTO termini (salaId, treningId, datum, kapacitet) VALUES (?, ?, ?, ?)";
-		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum(), terminTreninga.getSala().getKapacitet());
+		
+		jdbcTemplate.update(sql, terminTreninga.getSala().getId(), terminTreninga.getTrening().getId(), terminTreninga.getDatum(), terminTreninga.getKapacitet());
+
 		
 	}
 

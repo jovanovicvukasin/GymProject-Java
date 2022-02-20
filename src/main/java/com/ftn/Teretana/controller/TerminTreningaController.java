@@ -94,6 +94,9 @@ public class TerminTreningaController {
 		Trening t = treningService.findOne(treningId);
 		Sala s = salaService.findOne(salaId);
 		TerminTreninga termin = new TerminTreninga(s, t, datum, s.getKapacitet());
+		if(t.getVrstaTreninga().equals("pojedinacni")) {
+			termin = new TerminTreninga(s, t, datum, 1);
+		}
 
 		
 		LocalDateTime datumOd = datum;

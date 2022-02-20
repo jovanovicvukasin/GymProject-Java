@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="css/StiloviTabela.css"/>
+	<base th:href="@{/}">
+	<title>Komentari</title>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<ul>
+					<li><a href="">Treninzi</a></li>
+				</ul>
+				<ul>
+					<li><a href="Korisnici/Logout">logout</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<table class="tabela">
+		<caption>Komentari</caption>
+		<tr>
+			<th>RB.</th>
+			<th>Trening</th>
+			<th>Ocena</th>
+			<th>Datum</th>
+		</tr>
+		<tr th:each="itKomentar, status: ${komentari}" th:if="${itKomentar.statusKomentara == 'naCekanju'}">
+			<td class="broj" th:text="${status.index + 1}"></td>
+			<td><a th:href="|Komentari/Details?id=${itKomentar.id}|" th:text="${itKomentar.trening.naziv}"></a></td>
+			<td class="broj" th:text="${itKomentar.ocena}"></td>
+			<td th:text="${#temporals.format(itKomentar.datum, 'dd.MM.yyyy.')}"></td>
+	</table>
+</body>
+</html>

@@ -99,6 +99,30 @@
 		</form>
 		</td>
 	</table>
+	<form th:if="${session.prijavljeniKorisnik != null}">
+	<table>
+	<caption>Komentari</caption>
+		<tr th:each="itKomentar: ${komentari}" th:if="${itKomentar.trening.id == trening.id and itKomentar.statusKomentara == 'odobren'}">
+			<td>
+				<ul>
+					<li><a th:text="${itKomentar.korisnik.ime + '&nbsp;' + itKomentar.korisnik.prezime + ':&nbsp;' + itKomentar.tekst}"></a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	</form>
+	<form method="post" action="Komentari/Create" th:if="${session.prijavljeniKorisnik != null}">
+	<input type="hidden" name="korisnickoIme" th:value="${session.prijavljeniKorisnik.korisnickoIme}"/>
+	<input type="hidden" name="treningId" th:value="${trening.id}"/>
+	<table th:if="${session.prijavljeniKorisnik != null and session.prijavljeniKorisnik.uloga == 'korisnik'}" class="tabela">
+		<caption>Dodaj komentar</caption>
+		<tr><th></th><td><input type="text" name="tekstKomentara" placeholder="Ostavi komentar" required="required"/></td></tr>
+		<tr><th>Ocena:</th><td><input type="number" name="ocena" min="1" max="5" value="1"/></td></tr>
+		<tr><th></th><td><input type="submit" value="Posalji"/></td></tr>
+	</table>
+	</form>
+	<p class="greska" th:text="${poruka}"></p>
+	
 	<table class="tabela">
 		<caption>Termini</caption>
 			<tr>

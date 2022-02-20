@@ -11,6 +11,8 @@ public interface TreningDAO {
 	public Trening findOne(Long id);
 	public int edit(Trening trening);
 	public int save(Trening trening);
+	public int update(Trening trening);
+
 
 
 }
