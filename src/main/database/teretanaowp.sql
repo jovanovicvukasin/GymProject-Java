@@ -187,10 +187,8 @@ INSERT INTO termini (id, salaId, treningId, datum, kapacitet) VALUES (9, 3, 4, '
 INSERT INTO korpa (id, terminId, korisnikId, cena, aktivna) VALUES (1, 3, 2, 2000.0, true);
 
 INSERT INTO zeljeniTreninzi (id, korisnikId) VALUES (1, 2);
-INSERT INTO zeljeniTreninzi (id, korisnikId) VALUES (2, 3);
 
 INSERT INTO zeljeniTreninziTrening (zeljeniTreningId, treningId) VALUES (1, 3);
-INSERT INTO zeljeniTreninziTrening (zeljeniTreningId, treningId) VALUES (2, 4);
 
 INSERT INTO kartice (popust, brojPoena, korisnikId, odobrena) VALUES (50, 10, 2, true);
 

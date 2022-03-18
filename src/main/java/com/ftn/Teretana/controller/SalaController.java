@@ -58,7 +58,7 @@ public class SalaController  {
 			Sala sala = new Sala(oznakaSale, kapacitet);
 			salaService.save(sala);
 			
-			response.sendRedirect(baseURL + "/Sale");
+			response.sendRedirect(baseURL + "Sale");
 			
 			return null;
 		}catch (Exception e) {

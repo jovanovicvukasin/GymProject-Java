@@ -110,6 +110,13 @@ public class TerminTreningaController {
 		List<TerminTreninga> termini = terminService.findTerminSala(salaId);
 		List<LocalDateTime> terminTreningaa = new ArrayList<>();
 		
+		boolean ans1 = termini.isEmpty();
+		 if (ans1 == true) {
+	    		terminService.save(termin);
+	    		response.sendRedirect(baseURL + "treninzi/details?id=" + treningId);
+	     }
+		
+		
 		for(TerminTreninga tt : termini) {
 			//System.out.println(tt.getTrening().getTrajanje());
 			LocalDateTime datum2 = tt.getDatum();

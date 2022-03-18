@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowCallbackHandler;
 import org.springframework.jdbc.core.RowMapper;
@@ -134,7 +135,13 @@ public class TerminTreningaDAOImpl implements TerminTreningaDAO {
 				"LEFT JOIN treninzi t ON tt.treningId = t.id " +
 				"WHERE tt.salaId = ? " +
 				"ORDER BY tt.id";
-		return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
+		try {
+			return jdbcTemplate.query(sql, new TerminTreningaRowMapper(), id);
+
+		}catch (EmptyResultDataAccessException e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
 
 	@Override
